@@ -1,4 +1,4 @@
 # Computer_Vision_project
-![](https://komarev.com/ghpvc/?username=SIQA&label=Views&style=plastic&color=brightgreen)
+![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=java&logoColor=white)
 
 Exam project for the Computer Vision course.
