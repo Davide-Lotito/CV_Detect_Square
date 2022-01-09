@@ -1,6 +1,7 @@
 A list of TODO things:
 
-* to Gray Scale Image Class
+* utility Class 
+* to Gray Scale Image method
 * Convolution Class
 * Edges Class
 * Straight Line Class
