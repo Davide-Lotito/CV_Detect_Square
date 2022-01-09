@@ -10,7 +10,7 @@ public class Utility {
 
 	/**
 	 * To read the image
-	 * @param fileName
+	 * @param fileName		the path where read the file
 	 * @return
 	 */
 	public static BufferedImage read(String fileName) {
@@ -27,9 +27,9 @@ public class Utility {
 
 	/**
 	 * Starting from any (color) image, it creates a grayscale one
-	 * @param weight (w) of the input image
-	 * @param height (h) of the input image
-	 * @param input 
+	 * @param w		the weight of the input image
+	 * @param h		the weight of the input image
+	 * @param input 	the input BufferedImage
 	 * @return
 	 */
 	public static BufferedImage toGrayScale(BufferedImage input, int w, int h) {
@@ -40,7 +40,7 @@ public class Utility {
 		for(int y = 0; y < h; y++){
 			for(int x = 0; x < w; x++){
 				int v = input.getRGB(x,y);
-
+				
 				int r = (v>>16)&255;
 				int g = (v>>8)&255;
 				int b = (v)&255;
@@ -56,23 +56,22 @@ public class Utility {
 				output.setRGB(x, y, v);
 			}
 		}
-		
-		//write the new image
-		writeImage(output);
+
+		writeImage(output,"grayScale");
 		return output;
 	}
-	
+
 	/**
-	 * write image on the disk
-	 * @param output
+	 * To write image on the disk
+	 * @param output		the path where save the file
 	 */
-	private static void writeImage(BufferedImage output) {
+	public static void writeImage(BufferedImage output, String name) {
 		try{
-		      File f = new File("./images/output/output1.png");
-		      ImageIO.write(output, "jpg", f);
-		    }catch(IOException e){
-		    	System.err.println("Error in the file writing!");
-				e.printStackTrace();
-		    }
+			File f = new File("./images/output/"+name+".png");
+			ImageIO.write(output, "png", f);
+		}catch(IOException e){
+			System.err.println("Error in the file writing!");
+			e.printStackTrace();
+		}
 	}
 }

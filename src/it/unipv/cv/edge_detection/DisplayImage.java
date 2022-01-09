@@ -8,15 +8,15 @@ import javax.swing.JLabel;
 
 
 public class DisplayImage {
-	
+
 	public static void main(String[] args) {
 		new DisplayImage("./images/input/architecture_C.png", "input image");
 	}
-	
+
 	/**
 	 * To display an image from the path
-	 * @param path
-	 * @param title
+	 * @param path		the path of the image to show
+	 * @param title		the title
 	 */
 	public DisplayImage(String path, String title){
 		BufferedImage img = Utility.read(path);
@@ -31,11 +31,11 @@ public class DisplayImage {
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
-	
+
 	/**
 	 * To display an image directly with BufferedImage
-	 * @param img
-	 * @param title
+	 * @param img		the BufferedImage to show
+	 * @param title		the title
 	 */
 	public DisplayImage(BufferedImage img, String title) {
 		ImageIcon icon = new ImageIcon(img);
@@ -49,7 +49,7 @@ public class DisplayImage {
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
-	
-	
+
+
 
 }
