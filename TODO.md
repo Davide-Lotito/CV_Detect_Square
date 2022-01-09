@@ -7,4 +7,4 @@ A list of TODO things:
 * Straight Line Class
 * Square Class
 * Edge Detector Interface
-* Edge Detector Class
+* Edge Detector Class (Sobel) 
