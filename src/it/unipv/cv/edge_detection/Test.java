@@ -17,7 +17,7 @@ public class Test {
 	public static void main(String[] args) {
 		String InputPath = "./images/input/vertical_line_C.png";
 		
-		/*test images names*/
+		/*---			test images names			---*/
 		//architecture_C.png
 		//vertical_line_C.png
 		//horizontal_line_C.png
