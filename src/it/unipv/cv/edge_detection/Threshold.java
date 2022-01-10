@@ -7,6 +7,13 @@ import java.util.ArrayList;
 import it.unipv.cv.utils.Coordinate;
 import it.unipv.cv.utils.Utility;
 
+/**
+ * A basic thresholding algorithm for images
+ * 
+ * @author Davide Pio Lotito - Aiman Al Masoud
+ * Computer Vision Project - 2022 - UniPV
+ *
+ */
 public class Threshold {
 
 	private int requiredThresholdValue = 100; //??

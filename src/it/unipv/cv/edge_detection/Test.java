@@ -5,7 +5,13 @@ import java.util.ArrayList;
 
 import it.unipv.cv.utils.*;
 
-
+/**
+ * Class used to launch some easy trials execution
+ * 
+ * @author Davide Pio Lotito - Aiman Al Masoud
+ * Computer Vision Project - 2022 - UniPV
+ *
+ */
 public class Test {
 
 	public static void main(String[] args) {

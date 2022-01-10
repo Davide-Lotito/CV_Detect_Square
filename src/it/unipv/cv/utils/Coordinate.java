@@ -2,6 +2,9 @@ package it.unipv.cv.utils;
 
 /**
  * Useful Class for the coordinate
+ * 
+ * @author Davide Pio Lotito - Aiman Al Masoud
+ * Computer Vision Project - 2022 - UniPV
  *
  */
 public class Coordinate {

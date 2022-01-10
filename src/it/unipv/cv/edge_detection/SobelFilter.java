@@ -4,6 +4,13 @@ import java.awt.image.BufferedImage;
 
 import it.unipv.cv.utils.Utility;
 
+/**
+ * Implement the Sobel Filtering algorithm
+ * 
+ * @author Davide Pio Lotito - Aiman Al Masoud
+ * Computer Vision Project - 2022 - UniPV
+ *
+ */
 public class SobelFilter implements EdgeDetector{
 	
 	/**
