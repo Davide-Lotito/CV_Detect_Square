@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import it.unipv.cv.utils.*;
 
 /**
- * Class used to launch some easy trials execution
+ * Test of the edge points
  * 
  * @author Davide Pio Lotito - Aiman Al Masoud
  * Computer Vision Project - 2022 - UniPV

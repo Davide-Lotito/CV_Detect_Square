@@ -3,15 +3,17 @@ package it.unipv.cv.line_detection;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-
 import it.unipv.cv.utils.Coordinate;
 
-
-
+/**
+ * Useful to find line
+ * 
+ * @author Davide Pio Lotito - Aiman Al Masoud
+ * Computer Vision Project - 2022 - UniPV
+ *
+ */
 public class LineFinder {
 
-	
-	
 	public static ArrayList<Line> detectLines(List<Coordinate> edgePoints){
 		
 		

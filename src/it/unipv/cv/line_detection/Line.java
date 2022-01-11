@@ -2,12 +2,17 @@ package it.unipv.cv.line_detection;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
-
 import it.unipv.cv.utils.Coordinate;
-
 
 //https://en.wikipedia.org/wiki/Hough_transform
 
+/**
+ * 
+ * Rapresents the line
+ * @author Davide Pio Lotito - Aiman Al Masoud
+ * Computer Vision Project - 2022 - UniPV
+ *
+ */
 
 public class Line{
 
@@ -68,7 +73,7 @@ public class Line{
 	public static ArrayList<Line> getLinesFor(Coordinate p){
 		ArrayList<Line> lines = new ArrayList<Line>();
 		
-		Integer[] thetas = new Integer[]{0, 15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180, 195, 210, 225, 240, 255, 270, 285, 300, 315, 330, 345};
+		Integer[] thetas = new Integer[]{0, 15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180};
 		
 		for(int theta : thetas){
 			lines.add(getLineFor(p, Math.toRadians(theta) ));
