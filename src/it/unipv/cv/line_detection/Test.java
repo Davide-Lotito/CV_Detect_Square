@@ -21,7 +21,7 @@ public class Test {
 
 		ArrayList<Line> lines = LineFinder.detectLines(Arrays.asList(edgePoints));
 		
-//		System.out.println(lines);
+		//System.out.println(lines);
 		
 		
 		

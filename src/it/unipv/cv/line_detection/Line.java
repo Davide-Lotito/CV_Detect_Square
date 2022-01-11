@@ -19,7 +19,7 @@ public class Line{
 	/**
 	 * Shortest distance of line from origin.
 	 */
-	final public double rho;
+	final public int rho;
 
 	/**
 	 * Angle from x-axis to line in the direction of rho.
@@ -32,14 +32,16 @@ public class Line{
 	 */
 	final public double slope;
 
-	
 	/**
 	 * y-intercept of the line.
 	 */
 	final public double yintercept;
 
+	public static void main(String[] args) {
+		Line.generateThetas(2);
+	}
 	
-	public Line(double rho, double theta) {
+	public Line(int rho, double theta) {
 		this.rho = rho;
 		this.theta  = theta;
 		
@@ -61,7 +63,7 @@ public class Line{
 	 * @return
 	 */
 	public static Line getLineFor(Coordinate p, double theta) {
-		double rho = p.X*Math.cos(theta) + p.Y*Math.sin(theta);
+		int rho = (int) Math.round((p.X*Math.cos(theta) + p.Y*Math.sin(theta)));
 		return new Line(rho, theta);
 	}
 	
@@ -73,7 +75,8 @@ public class Line{
 	public static ArrayList<Line> getLinesFor(Coordinate p){
 		ArrayList<Line> lines = new ArrayList<Line>();
 		
-		Integer[] thetas = new Integer[]{0, 15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180};
+		int step = 1;//distance between two adjacent thetas
+		Integer[] thetas = Line.generateThetas(step);
 		
 		for(int theta : thetas){
 			lines.add(getLineFor(p, Math.toRadians(theta) ));
@@ -86,8 +89,23 @@ public class Line{
 	public String toString() {
 		return MessageFormat.format("Line(slope={0}, y-intercept={1})", slope, yintercept);
 	}
-
 	
+	/**
+	 * Create a vector of Int, from 0 to 180, euidistanced of step
+	 * 
+	 * @param step
+	 * @return
+	 */
+	private static Integer[] generateThetas(int step) {
+		int size = (180/step);
+		Integer[] thetas = new Integer[size];
+		for(int i=1; i<size; i++) {
+			int value = i * (180) / (size - 1);
+			thetas[i]=value;
+			System.out.println(value);
+		}
+		return thetas;
+	}
 	
 	
 
