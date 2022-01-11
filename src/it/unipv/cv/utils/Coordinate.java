@@ -1,5 +1,7 @@
 package it.unipv.cv.utils;
 
+import java.text.MessageFormat;
+
 /**
  * Useful Class for the coordinate
  * 
@@ -16,4 +18,10 @@ public class Coordinate {
 		X = x;
 		Y = y;
 	}
+	
+	@Override
+		public String toString() {
+			return MessageFormat.format("Coordinate({0},{1})", X, Y);
+	}
+	
 }
