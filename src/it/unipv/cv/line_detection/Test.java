@@ -8,17 +8,17 @@ import it.unipv.cv.utils.Coordinate;
 public class Test {
 
 	public static void main(String[] args) {
-		
-		//generate points on a line
-		
-		Coordinate[] edgePoints = new Coordinate[] {new Coordinate(1, 2), new Coordinate(2, 4)};
-		
-		//noise new Point(1, 3), new Point(0, 9), new Point(2, 5)
+				
+		// contains points from y = 2*x (slope=2) and y = x (slope=1)		
+        Coordinate[] edgePoints = new Coordinate[] {new Coordinate(1, 2), new Coordinate(2, 4), new Coordinate(1, 1), new Coordinate(3, 3)};
+
 		
 		
 		ArrayList<Line> lines = LineFinder.detectLines(Arrays.asList(edgePoints));
 		
 //		System.out.println(lines);
+		
+		
 		
 
 	}
