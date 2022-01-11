@@ -1,9 +1,9 @@
 package it.unipv.cv.utils;
 
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -74,7 +74,10 @@ public class DisplayImage {
 		private static final long serialVersionUID = 1L;
 
 		public MyPanel(ArrayList<BufferedImage> images) {
-			this.setLayout(new BoxLayout(this,BoxLayout.X_AXIS));
+			
+			int size = (int)Math.round(((double)images.size())/2);
+			this.setLayout(new GridLayout(size, size));
+			
 			for (BufferedImage bufferedImage : images) {
 				ImageIcon icon = new ImageIcon(bufferedImage);
 				JLabel label = new JLabel(icon); 
