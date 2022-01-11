@@ -1,9 +1,17 @@
 package it.unipv.cv.line_detection;
 
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
+
+
+import it.unipv.cv.edge_detection.EdgeDetector;
+import it.unipv.cv.edge_detection.SobelFilter;
+import it.unipv.cv.edge_detection.Threshold;
 import it.unipv.cv.utils.Coordinate;
+import it.unipv.cv.utils.Utility;
 
 /**
  * Useful to find line
@@ -14,54 +22,54 @@ import it.unipv.cv.utils.Coordinate;
  */
 public class LineFinder {
 
-	public static ArrayList<Line> detectLines(List<Coordinate> edgePoints){
-		
-		
-		ArrayList<Line> lines = new ArrayList<Line>();
-		
+
+
+	public static final int MIN_VOTES = 200;
+
+
+	public static ArrayList<Line> detectLines(BufferedImage img){
+
+
+		//get the edge-points as coordinates on a CARTESIAN plane. 
+		BufferedImage grey = Utility.toGrayScale(img, img.getWidth(), img.getHeight());
+		EdgeDetector edgeDetector = new SobelFilter();
+		BufferedImage i = edgeDetector.filtering(grey);
+		Threshold threshold = new Threshold();
+		ArrayList<Coordinate> edgePoints = threshold.thresholding(i);
+
+
 		//get 'all possible' lines passing through the edge-points
+		ArrayList<Line> lines = new ArrayList<Line>();
 		for(Coordinate point : edgePoints) {
-			System.out.println(point);
-			System.out.println(Line.getLinesFor(point));
 			lines.addAll(Line.getLinesFor(point));
 		}
-		
-		// 1) Group lines by slope. 
-		// 2) For each slope-group, try to find groups of lines with similar y-intercepts
-		
-		
-		
-		lines.sort(new Comparator<Line>() {
 
-			@Override
-			public int compare(Line arg0, Line arg1) {
-				return (int) ((arg0.slope - arg1.slope)*1000);
-			}
-			
-		});
-		
-//		
-//		lines.sort(new Comparator<Line>() {
-//
-//			@Override
-//			public int compare(Line arg0, Line arg1) {
-//				return (int) ((arg0.yintercept - arg1.yintercept)*1000);
-//			}
-//			
-//		});
-		
-		System.out.println(lines.size());
-		for (Line line : lines) {
-			System.out.println(line);
+		// get the number of votes for each line
+		Set<Line> linesSet = new HashSet<Line>(lines);
+		HashMap<Line, Line> voteAccumulator = new HashMap<Line, Line>();
+
+		for (Line line : linesSet) {
+			voteAccumulator.put(line, line);
 		}
-//		System.out.println(lines);
+
+		for(Line line : lines) {
+			voteAccumulator.get(line).addVote();
+		}
 		
-		return null;
+		// filter out lines with too few votes
+		ArrayList<Line> result = new ArrayList<Line>();
+		for(Line line : voteAccumulator.values()) {
+			if(line.getNumVotes()<MIN_VOTES) {
+				continue;
+			}
+			result.add(line);
+		}
+
+		return result;
 	}
-	
-	
-	
-	
-	
+
+
+
+
 
 }

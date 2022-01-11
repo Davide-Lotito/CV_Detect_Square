@@ -1,8 +1,12 @@
 package it.unipv.cv.line_detection;
 
+import java.awt.image.BufferedImage;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+
+
 import it.unipv.cv.utils.Coordinate;
+import it.unipv.cv.utils.Utility;
 
 //https://en.wikipedia.org/wiki/Hough_transform
 
@@ -37,13 +41,22 @@ public class Line{
 	 */
 	final public double yintercept;
 	
+	/**
+	 * Number of votes received by this line.
+	 * Mutable attribute, not used in equals nor hashCode 
+	 */
+	private int numVotes;
+	
+	
 	public Line(int rho, double theta) {
 		this.rho = rho;
 		this.theta  = theta;
 		
 		//https://aishack.in/tutorials/converting-lines-normal-slopeintercept-form/
-		this.slope = -Math.cos(theta)/Math.sin(theta);
-		this.yintercept = rho*(1/Math.sin(theta));
+		slope = -Math.cos(theta)/Math.sin(theta);
+		yintercept = rho*(1/Math.sin(theta));
+		
+		numVotes = 0;
 	}
 
 	/**
@@ -72,36 +85,115 @@ public class Line{
 		ArrayList<Line> lines = new ArrayList<Line>();
 		
 		int step = 1;//distance between two adjacent thetas
-		Integer[] thetas = Line.generateThetas(step);
+		Integer[] thetas = Utility.generateThetas(step);
+		
 		
 		for(int theta : thetas){
-			lines.add(getLineFor(p, Math.toRadians(theta) ));
+			Line line = getLineFor(p, Math.toRadians(theta));
+			
+			//discard lines with negative rho
+			if(line.rho<0) {
+				continue;
+			}
+			lines.add( line);
 		}
+		
 		return lines;
 	}
 	
 	
 	@Override
 	public String toString() {
-		return MessageFormat.format("Line(slope={0}, y-intercept={1})", slope, yintercept);
+		return MessageFormat.format("Line(theta={0}, rho={1}, slope={2}, y-intercept={3}, numVotes={4})", theta, rho, slope, yintercept, numVotes);
+	}
+	
+	@Override
+	public boolean equals(Object otherLine) {
+		
+		if(((Line)otherLine).theta != this.theta) {
+			return false;
+		}
+		
+		if(((Line)otherLine).rho != this.rho) {
+			return false;
+		}
+		
+		return true;
+	}
+	
+	
+	@Override
+	public int hashCode() {
+		return (int)(rho*theta);
 	}
 	
 	/**
-	 * Create a vector of Int, from 0 to 180, euidistanced of step
-	 * 
+	 * Increment the number of votes of this image by one.
+	 */
+	public void addVote() {
+		numVotes++;
+	}
+	
+	/**
+	 * Get the number of votes.
+	 * @return
+	 */
+	public int getNumVotes() {
+		return numVotes;
+	}
+	
+	
+	/**
+	 * Get a bunch of fresh coordinates from this line.
+	 * @param upperBound
+	 * @param lowerBound
 	 * @param step
 	 * @return
 	 */
-	private static Integer[] generateThetas(int step) {
-		int size = (180/step);
-		Integer[] thetas = new Integer[size];
-		for(int i=1; i<size; i++) {
-			int value = i * (180) / (size - 1);
-			thetas[i]=value;
-			System.out.println(value);
+	public ArrayList<Coordinate> sample(double upperBound, double lowerBound, double step) {
+		
+		ArrayList<Coordinate> coordinates = new ArrayList<Coordinate>(); 
+		
+		for(double x=lowerBound; x<upperBound; x+=step) {
+			coordinates.add( new Coordinate((int)x, (int)(slope*x + yintercept)));
 		}
-		return thetas;
+		return coordinates;
 	}
+	
+	/**
+	 * Draw this line on an image and return a copy.
+	 * @param b
+	 * @return
+	 */
+	public BufferedImage draw(BufferedImage b) {
+	    
+		b = Utility.copyImage(b);
+		
+		int lowerBound = Utility.pixelToCoord(new Coordinate(0, 0) , b.getWidth(), b.getHeight()).X;
+		int upperBound =  Utility.pixelToCoord(new Coordinate( b.getWidth(), b.getHeight()) , b.getWidth(), b.getHeight()).X;
+		
+		ArrayList<Coordinate> coordinates = sample(upperBound, lowerBound , 1);
+		
+		
+		//convert  coordinates to pixels
+		ArrayList<Coordinate> buffer = new ArrayList<Coordinate>(); 
+		for(Coordinate c : coordinates) {
+			buffer.add(Utility.coordToPixel(c, b.getWidth(), b.getHeight()));
+		}
+		
+		coordinates = buffer;
+		
+		for(Coordinate coordinate : coordinates ) {
+			try {
+				b.setRGB(coordinate.X, coordinate.Y, 0xffff0000);
+			}catch (Exception e) {}
+		}
+			
+		return b;
+	}
+	
+	
+	
 	
 	
 

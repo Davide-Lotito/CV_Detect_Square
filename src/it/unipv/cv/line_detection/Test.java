@@ -1,8 +1,11 @@
 package it.unipv.cv.line_detection;
 
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.Arrays;
-import it.unipv.cv.utils.Coordinate;
+
+
+import it.unipv.cv.utils.DisplayImage;
+import it.unipv.cv.utils.Utility;
 
 /**
  * Test the straight line detection
@@ -14,18 +17,38 @@ import it.unipv.cv.utils.Coordinate;
 public class Test {
 
 	public static void main(String[] args) {
-				
-		// contains points from y = 2*x (slope=2) and y = x (slope=1)		
-        Coordinate[] edgePoints = new Coordinate[] {new Coordinate(1, 2), new Coordinate(2, 4), new Coordinate(1, 1), new Coordinate(3, 3)};
 
 
-		ArrayList<Line> lines = LineFinder.detectLines(Arrays.asList(edgePoints));
+		// currently works for 'diag_lines' but not for 'square'
+		String diagLines = "images/input/diagonal_lines.png";
+		String square = "images/input/square.png";
+		String pathname = diagLines;
+
+
+		//read the image and make a copy of it
+		BufferedImage original = Utility.read(pathname);
+		BufferedImage image = Utility.copyImage(original);
+
+		//detect the lines on the image
+		ArrayList<Line> lines = LineFinder.detectLines(image);
+
+
+		//draw each line
+		for(Line line : lines) {
+			image = line.draw(image);
+		}
 		
-		//System.out.println(lines);
-		
-		
-		
+		//show results
+		ArrayList<BufferedImage> imagesList = new ArrayList<BufferedImage>();
+		imagesList.add(original);
+		imagesList.add(image);
+		new DisplayImage().displayMoreImages(imagesList );
 
 	}
+
+
+
+
+
 
 }

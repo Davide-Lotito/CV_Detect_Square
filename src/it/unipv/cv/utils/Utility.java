@@ -1,6 +1,7 @@
 package it.unipv.cv.utils;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -136,4 +137,65 @@ public class Utility {
 		}
 		return avg/(x*y);
 	}
+	
+	
+	/**
+	 * Create a vector of Int, from 0 to 180, euidistanced of step
+	 * 
+	 * @param step
+	 * @return
+	 */
+	public  static Integer[] generateThetas(int step) {
+		int size = (180/step)+1;
+		Integer[] thetas = new Integer[size];
+		int value = 0;
+		for(int i=0; i<size; i++) {
+			thetas[i]=value;
+			value++;
+			
+		}
+		return thetas;
+	}
+	
+	
+	
+	/**
+	 * Convert a coordinate in the Cartesian reference system to a Coordinate in the upper-left-corner reference system.
+	 * @param coordinate
+	 * @param imageWidth
+	 * @param imageHeight
+	 * @return
+	 */
+	public  static Coordinate coordToPixel(Coordinate coordinate, int imageWidth, int imageHeight) {
+		return new Coordinate( coordinate.X + imageWidth/2, imageHeight/2-coordinate.Y );
+	}
+	
+	
+	/**
+	 * Convert a Coordinate in in the upper-left-corner reference system to a Coordinate in the Cartesian reference system. 
+	 * @param coordinate
+	 * @param imageWidth
+	 * @param imageHeight
+	 * @return
+	 */
+	public  static Coordinate pixelToCoord(Coordinate pixel, int imageWidth, int imageHeight) {
+		return new Coordinate( pixel.X - imageWidth/2, imageHeight/2 - pixel.Y );
+	}
+	
+	/**
+	 * Make a copy of a BufferedImage.
+	 * @param source
+	 * @return
+	 */
+	public static BufferedImage copyImage(BufferedImage source){
+	    BufferedImage b = new BufferedImage(source.getWidth(), source.getHeight(), source.getType());
+	    Graphics g = b.getGraphics();
+	    g.drawImage(source, 0, 0, null);
+	    g.dispose();
+	    return b;
+	}
+	
+	
+	
+	
 }
