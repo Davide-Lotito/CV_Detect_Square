@@ -77,9 +77,18 @@ public class Utility {
 	 * @param output		the path where save the file
 	 */
 	public static void writeImage(BufferedImage output, String name) {
+		
+		
+		if(! new File("./images/output/").isDirectory()) {
+			new File("./images/output/").mkdir();
+		}
+		
 		try{
+			
 			File f = new File("./images/output/"+name+".png");
 			ImageIO.write(output, "png", f);
+			
+			
 		}catch(IOException e){
 			System.err.println("Error in the file writing!");
 			e.printStackTrace();
