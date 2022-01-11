@@ -36,10 +36,6 @@ public class Line{
 	 * y-intercept of the line.
 	 */
 	final public double yintercept;
-
-	public static void main(String[] args) {
-		Line.generateThetas(2);
-	}
 	
 	public Line(int rho, double theta) {
 		this.rho = rho;
