@@ -24,7 +24,7 @@ public class LineFinder {
 
 
 
-	public static final int MIN_VOTES = 100;
+	public static final int MIN_VOTES = 300;
 
 
 	public static ArrayList<Line> detectLines(BufferedImage img){
@@ -62,6 +62,8 @@ public class LineFinder {
 			if(line.getNumVotes()<MIN_VOTES) {
 				continue;
 			}
+			/*---------*/
+			System.out.println(line);
 			result.add(line);
 		}
 

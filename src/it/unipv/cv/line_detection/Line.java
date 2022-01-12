@@ -34,12 +34,12 @@ public class Line{
 	/**
 	 * Slope of the line.
 	 */
-	final public double slope;
+	public double slope;
 
 	/**
 	 * y-intercept of the line.
 	 */
-	final public double yintercept;
+	public double yintercept;
 	
 	/**
 	 * Number of votes received by this line.
@@ -53,9 +53,17 @@ public class Line{
 		this.theta  = theta;
 		
 		//https://aishack.in/tutorials/converting-lines-normal-slopeintercept-form/
-		slope = -Math.cos(theta)/Math.sin(theta);
+		slope = - (Math.cos(theta)/Math.sin(theta));
 		yintercept = rho*(1/Math.sin(theta));
-		
+		/**/
+		if (theta == 0) {
+			slope = 20;
+			yintercept = 0;
+		} else if (theta > 3.1) {
+			slope = -20;
+			yintercept = 0;
+		}
+		/**/
 		numVotes = 0;
 	}
 
@@ -72,8 +80,9 @@ public class Line{
 	 * @return
 	 */
 	public static Line getLineFor(Coordinate p, double theta) {
-		int rho = (int) Math.round((p.X*Math.cos(theta) + p.Y*Math.sin(theta)));
-		return new Line(rho, theta);
+		double rho = (p.X*Math.cos(theta) + p.Y*Math.sin(theta));
+		int rho2 = (int) ((Math.round(rho)));
+		return new Line(rho2, theta);
 	}
 	
 	/**
@@ -92,9 +101,9 @@ public class Line{
 			Line line = getLineFor(p, Math.toRadians(theta));
 			
 			//discard lines with negative rho
-			if(line.rho<0) {
-				continue;
-			}
+//			if(line.rho<0) {
+//				continue;
+//			}
 			lines.add( line);
 		}
 		
@@ -148,15 +157,22 @@ public class Line{
 	 * @param upperBound
 	 * @param lowerBound
 	 * @param step
+	 * @param h		Height of the image
 	 * @return
 	 */
-	public ArrayList<Coordinate> sample(double upperBound, double lowerBound, double step) {
+	public ArrayList<Coordinate> sample(double upperBound, double lowerBound, double step, int h) {
 		
 		ArrayList<Coordinate> coordinates = new ArrayList<Coordinate>(); 
 		
 		for(double x=lowerBound; x<upperBound; x+=step) {
-			coordinates.add( new Coordinate((int)x, (int)((rho - (x * Math.cos(theta)))/Math.sin(theta))));
+//			int y = (int)((rho - (x * Math.cos(theta)))/Math.sin(theta));
+			int y = (int)((slope * x) + yintercept);
+			Coordinate c = new Coordinate((int)x, Math.min(h,y));
+			coordinates.add(c);
+			/*-------*/
+			//System.out.println(c);
 		}
+
 		return coordinates;
 	}
 	
@@ -172,7 +188,7 @@ public class Line{
 		int lowerBound = Utility.pixelToCoord(new Coordinate(0, 0) , b.getWidth(), b.getHeight()).X;
 		int upperBound =  Utility.pixelToCoord(new Coordinate( b.getWidth(), b.getHeight()) , b.getWidth(), b.getHeight()).X;
 		
-		ArrayList<Coordinate> coordinates = sample(upperBound, lowerBound , 1);
+		ArrayList<Coordinate> coordinates = sample(upperBound, lowerBound , 1, b.getHeight());
 		
 		
 		//convert  coordinates to pixels
