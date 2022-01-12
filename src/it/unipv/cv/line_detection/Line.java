@@ -51,22 +51,22 @@ public class Line{
 	
 	
 	public Line(int rho, double theta) {
+		
+		numVotes = 0;
+		
 		this.rho = rho;
 		this.theta  = theta;
 		
 		//https://aishack.in/tutorials/converting-lines-normal-slopeintercept-form/
 		slope = - (Math.cos(theta)/Math.sin(theta));
 		yintercept = rho*(1/Math.sin(theta));
-		/**/
-		if (theta == 0) {
-			slope = 20;
-			yintercept = 0;
-		} else if (theta > 3.1) {
-			slope = -20;
-			yintercept = 0;
+		
+		if (theta == 0 | theta > 3.1) {
+			theta = 0.01;
+			slope = - (Math.cos(theta)/Math.sin(theta));
+			yintercept = rho*(1/Math.sin(theta));
 		}
-		/**/
-		numVotes = 0;
+	
 	}
 
 	/**

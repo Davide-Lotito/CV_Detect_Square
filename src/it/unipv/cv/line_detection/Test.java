@@ -44,7 +44,11 @@ public class Test {
 		ArrayList<BufferedImage> imagesList = new ArrayList<BufferedImage>();
 		imagesList.add(original);
 		imagesList.add(image);
-		new DisplayImage().displayMoreImages(imagesList );
+//		new DisplayImage().displayMoreImages(imagesList );
+		
+		new DisplayImage().displayOneImage(original, "original");
+		new DisplayImage().displayOneImage(image, "found lines");
+
 
 	}
 
