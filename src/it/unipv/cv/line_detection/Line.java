@@ -1,5 +1,7 @@
 package it.unipv.cv.line_detection;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -99,11 +101,6 @@ public class Line{
 		
 		for(int theta : thetas){
 			Line line = getLineFor(p, Math.toRadians(theta));
-			
-			//discard lines with negative rho
-//			if(line.rho<0) {
-//				continue;
-//			}
 			lines.add( line);
 		}
 		
@@ -151,30 +148,15 @@ public class Line{
 		return numVotes;
 	}
 	
-	
 	/**
-	 * Get a bunch of fresh coordinates from this line.
-	 * @param upperBound
-	 * @param lowerBound
-	 * @param step
-	 * @param h		Height of the image
+	 * Evaluates y for a given x. (In the Cartesian space).
+	 * @param x
 	 * @return
 	 */
-	public ArrayList<Coordinate> sample(double upperBound, double lowerBound, double step, int h) {
-		
-		ArrayList<Coordinate> coordinates = new ArrayList<Coordinate>(); 
-		
-		for(double x=lowerBound; x<upperBound; x+=step) {
-//			int y = (int)((rho - (x * Math.cos(theta)))/Math.sin(theta));
-			int y = (int)((slope * x) + yintercept);
-			Coordinate c = new Coordinate((int)x, Math.min(h,y));
-			coordinates.add(c);
-			/*-------*/
-			//System.out.println(c);
-		}
-
-		return coordinates;
+	public double evaluate(double x) {
+		return (slope * x) + yintercept;
 	}
+	
 	
 	/**
 	 * Draw this line on an image and return a copy.
@@ -184,26 +166,16 @@ public class Line{
 	public BufferedImage draw(BufferedImage b) {
 	    
 		b = Utility.copyImage(b);
-		
-		int lowerBound = Utility.pixelToCoord(new Coordinate(0, 0) , b.getWidth(), b.getHeight()).X;
-		int upperBound =  Utility.pixelToCoord(new Coordinate( b.getWidth(), b.getHeight()) , b.getWidth(), b.getHeight()).X;
-		
-		ArrayList<Coordinate> coordinates = sample(upperBound, lowerBound , 1, b.getHeight());
-		
-		
-		//convert  coordinates to pixels
-		ArrayList<Coordinate> buffer = new ArrayList<Coordinate>(); 
-		for(Coordinate c : coordinates) {
-			buffer.add(Utility.coordToPixel(c, b.getWidth(), b.getHeight()));
-		}
-		
-		coordinates = buffer;
-		
-		for(Coordinate coordinate : coordinates ) {
-			try {
-				b.setRGB(coordinate.X, coordinate.Y, 0xffff0000);
-			}catch (Exception e) {}
-		}
+		Graphics2D g = (Graphics2D) b.getGraphics();
+		g.setColor(Color.red);
+		int lowerBoundX = Utility.pixelToCoord(new Coordinate(0, 0) , b.getWidth(), b.getHeight()).X;
+		int upperBoundX =  Utility.pixelToCoord(new Coordinate( b.getWidth(), b.getHeight()) , b.getWidth(), b.getHeight()).X;		
+		int lowerBoundY = (int)evaluate(lowerBoundX);
+		int upperBoundY = (int)evaluate(upperBoundX);
+		Coordinate c1 = Utility.coordToPixel(new Coordinate(lowerBoundX, lowerBoundY), b.getWidth(), b.getHeight());
+		Coordinate c2 = Utility.coordToPixel(new Coordinate(upperBoundX, upperBoundY), b.getWidth(), b.getHeight());
+        g.drawLine(c1.X, c1.Y, c2.X, c2.Y);
+        g.dispose();
 			
 		return b;
 	}
