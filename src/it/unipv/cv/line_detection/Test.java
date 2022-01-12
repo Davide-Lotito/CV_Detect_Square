@@ -1,6 +1,7 @@
 package it.unipv.cv.line_detection;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.ArrayList;
 
 
@@ -19,35 +20,37 @@ public class Test {
 	public static void main(String[] args) {
 
 
-		// currently works for 'diag_lines' but not for 'square'
-		String diagLines = "images/input/diagonal_lines.png";
-		String square = "images/input/square.png";
-		String horizontal = "images/input/horizontal_line_C.png";
-		//String pathname = diagLines;
-		String pathname = square;
+		// paths to a bunch of test images
+		String root = "images"+File.separator+"input"+File.separator;
+		String diagLines = root+"diagonal_lines.png";
+		String square = root+"square.png";
+		String horizontal = root+"horizontal_line_C.png";
+		String sudoku =  root+"sudoku.png";
+		String sudoku2 =  root+"sudoku_settimana.jpg";
 
-
+		// pick a test image
+		String pathname = horizontal;
+		
+		
 		//read the image and make a copy of it
-		BufferedImage original = Utility.read(pathname);
-		BufferedImage image = Utility.copyImage(original);
+		BufferedImage image = Utility.read(pathname);
+		
 
 		//detect the lines on the image
-		ArrayList<Line> lines = LineFinder.detectLines(image);
-
-
+		LineFinder lineFinder = new LineFinder();
+		ArrayList<Line> lines = lineFinder.detectLines(image);
+		
 		//draw each line
 		for(Line line : lines) {
 			image = line.draw(image);
 		}
 		
-		//show results
-		ArrayList<BufferedImage> imagesList = new ArrayList<BufferedImage>();
-		imagesList.add(original);
-		imagesList.add(image);
-//		new DisplayImage().displayMoreImages(imagesList );
+		for(BufferedImage img : lineFinder.imageSequence) {
+			new DisplayImage().displayOneImage(img, "");
+		}
 		
-		new DisplayImage().displayOneImage(original, "original");
-		new DisplayImage().displayOneImage(image, "found lines");
+		//display the images with the detected lines
+		new DisplayImage().displayOneImage(image, "detected lines");
 
 
 	}

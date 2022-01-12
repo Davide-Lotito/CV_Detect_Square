@@ -10,11 +10,12 @@ import java.util.ArrayList;
 import it.unipv.cv.utils.Coordinate;
 import it.unipv.cv.utils.Utility;
 
+
 //https://en.wikipedia.org/wiki/Hough_transform
 
 /**
  * 
- * Rapresents the line
+ * Represents a straight line.
  * @author Davide Pio Lotito - Aiman Al Masoud
  * Computer Vision Project - 2022 - UniPV
  *
@@ -32,16 +33,15 @@ public class Line{
 	 */
 	final public double theta;
 	
-	
 	/**
 	 * Slope of the line.
 	 */
-	public double slope;
+	final public double slope;
 
 	/**
 	 * y-intercept of the line.
 	 */
-	public double yintercept;
+	final public double yintercept;
 	
 	/**
 	 * Number of votes received by this line.
@@ -52,20 +52,18 @@ public class Line{
 	
 	public Line(int rho, double theta) {
 		
-		numVotes = 0;
-		
 		this.rho = rho;
 		this.theta  = theta;
+		
+		if (theta == 0 || theta > 3.1) {
+			theta = 0.01;
+		}
 		
 		//https://aishack.in/tutorials/converting-lines-normal-slopeintercept-form/
 		slope = - (Math.cos(theta)/Math.sin(theta));
 		yintercept = rho*(1/Math.sin(theta));
 		
-		if (theta == 0 | theta > 3.1) {
-			theta = 0.01;
-			slope = - (Math.cos(theta)/Math.sin(theta));
-			yintercept = rho*(1/Math.sin(theta));
-		}
+		numVotes = 0;
 	
 	}
 
@@ -98,12 +96,10 @@ public class Line{
 		int step = 1;//distance between two adjacent thetas
 		Integer[] thetas = Utility.generateThetas(step);
 		
-		
 		for(int theta : thetas){
 			Line line = getLineFor(p, Math.toRadians(theta));
-			lines.add( line);
+			lines.add(line);
 		}
-		
 		return lines;
 	}
 	
@@ -130,7 +126,7 @@ public class Line{
 	
 	@Override
 	public int hashCode() {
-		return (int)(rho*theta);
+		return (int)(rho+theta);
 	}
 	
 	/**

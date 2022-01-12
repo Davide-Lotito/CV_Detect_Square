@@ -6,7 +6,10 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.imageio.ImageIO;
+
 
 /**
  * Class with some generic useful methods
@@ -194,6 +197,46 @@ public class Utility {
 	    g.dispose();
 	    return b;
 	}
+	
+	/**
+	 * Plot a set of points on a buffered image. 
+	 * @param image
+	 * @param points
+	 * @return
+	 */
+	public static BufferedImage plotPoints(BufferedImage image, ArrayList<Coordinate> points) {
+		
+		Graphics2D g = (Graphics2D) image.getGraphics();
+		g.setColor(Color.red);
+		
+		for(Coordinate c : points) {
+			Coordinate pixel = coordToPixel(c, image.getWidth(), image.getHeight());
+			g.fillRect(pixel.X, pixel.Y, 1, 1);
+		}
+		g.dispose();
+		return image;
+	}
+	
+	
+	/**
+	 * Get a blank (all black) image of the same size as the argument.
+	 * @param source
+	 * @return
+	 */
+	public static BufferedImage blankImage(BufferedImage source){
+		BufferedImage b = new BufferedImage(source.getWidth(), source.getHeight(), BufferedImage.TYPE_INT_ARGB);
+		
+		for(int i =0; i<b.getWidth(); i++) {
+			for(int j =0; j<b.getHeight(); j++) {
+				b.setRGB(i, j, 0xff000000);
+			}
+		}
+		return b;
+	}
+
+		
+	
+	
 	
 	
 	
