@@ -24,7 +24,7 @@ public class LineFinder {
 
 
 
-	public static final int MIN_VOTES = 200;
+	public static final int MIN_VOTES = 100;
 
 
 	public static ArrayList<Line> detectLines(BufferedImage img){

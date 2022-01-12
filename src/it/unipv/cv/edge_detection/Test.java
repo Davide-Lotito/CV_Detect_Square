@@ -15,7 +15,7 @@ import it.unipv.cv.utils.*;
 public class Test {
 
 	public static void main(String[] args) {
-		String InputPath = "./images/input/vertical_line_C.png";
+		String InputPath = "./images/input/square.png";
 		
 		/*---			test images names			---*/
 		//architecture_C.png

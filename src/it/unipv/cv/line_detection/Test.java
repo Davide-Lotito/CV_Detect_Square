@@ -22,7 +22,9 @@ public class Test {
 		// currently works for 'diag_lines' but not for 'square'
 		String diagLines = "images/input/diagonal_lines.png";
 		String square = "images/input/square.png";
-		String pathname = diagLines;
+		String horizontal = "images/input/horizontal_line_C.png";
+		//String pathname = diagLines;
+		String pathname = square;
 
 
 		//read the image and make a copy of it

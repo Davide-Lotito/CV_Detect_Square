@@ -155,7 +155,7 @@ public class Line{
 		ArrayList<Coordinate> coordinates = new ArrayList<Coordinate>(); 
 		
 		for(double x=lowerBound; x<upperBound; x+=step) {
-			coordinates.add( new Coordinate((int)x, (int)(slope*x + yintercept)));
+			coordinates.add( new Coordinate((int)x, (int)((rho - (x * Math.cos(theta)))/Math.sin(theta))));
 		}
 		return coordinates;
 	}
