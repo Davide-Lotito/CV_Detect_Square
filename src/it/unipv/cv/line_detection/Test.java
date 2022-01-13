@@ -29,7 +29,7 @@ public class Test {
 		String sudoku2 =  root+"sudoku_settimana.jpg";
 
 		// pick a test image
-		String pathname = horizontal;
+		String pathname = sudoku2;
 		
 		
 		//read the image and make a copy of it
@@ -45,8 +45,8 @@ public class Test {
 			image = line.draw(image);
 		}
 		
-		for(BufferedImage img : lineFinder.imageSequence) {
-			new DisplayImage().displayOneImage(img, "");
+		for(int i=0; i<lineFinder.imageSequence.size(); i++) {
+			new DisplayImage().displayOneImage(lineFinder.imageSequence.get(i), i+"");
 		}
 		
 		//display the images with the detected lines
