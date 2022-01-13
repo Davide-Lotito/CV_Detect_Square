@@ -15,7 +15,7 @@ import it.unipv.cv.utils.*;
 public class Test {
 
 	public static void main(String[] args) {
-		String InputPath = "./images/input/square.png";
+		String InputPath = "./images/input/sudoku.png";
 		
 		/*---			test images names			---*/
 		//architecture_C.png
@@ -36,7 +36,7 @@ public class Test {
 		Threshold t = new Threshold();
 		t.thresholding(filteredImage);
 		BufferedImage thImage = t.outputImage;
-		//d.displayOneImage(thImage, "");
+		d.displayOneImage(thImage, "");
 		
 		
 		/*---			display more images			---*/
@@ -45,7 +45,7 @@ public class Test {
 		images.add(grayScaleImage);
 		images.add(filteredImage);
 		images.add(thImage);
-		d.displayMoreImages(images);
+		//d.displayMoreImages(images);
 				
 	}
 }

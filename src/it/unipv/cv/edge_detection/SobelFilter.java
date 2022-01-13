@@ -47,7 +47,7 @@ public class SobelFilter implements EdgeDetector{
                 int gy =  ((-1 * val00) + (-2 * val01) + (-1 * val02))
                         + ((0 * val10) + (0 * val11) + (0 * val12))
                         + ((1 * val20) + (2 * val21) + (1 * val22));
-
+                
                 double gval = Math.sqrt((gx * gx) + (gy * gy));
                 int g = (int) gval;
 

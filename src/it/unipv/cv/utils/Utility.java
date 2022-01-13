@@ -115,32 +115,61 @@ public class Utility {
 	    return resizedImage;
 	}
 	
-	/**
-	 * Compute the avarage value, from pixels
-	 * @param inputImage
-	 * @return
-	 */
-	public static int averagePixels(BufferedImage inputImage) {
-		int x = inputImage.getWidth();
-		int y = inputImage.getHeight();
-		
+
+	public static int average(ArrayList<Integer> input) {
+
 		//accumulator value
 		int avg = 0;
 		
-		for (int i = 1; i < x - 1; i++) {
-			for (int j = 1; j < y - 1; j++) {
-				int c = inputImage.getRGB(i, j);
+		for (Integer i : input) {
+			avg += i;
+		}
+		return avg/(input.size());
+	}
+	
+	
+	public static int getMax(BufferedImage input) {
+		int w = input.getWidth();
+		int h = input.getHeight();
+		int max = 0;
+		
+		for (int i = 1; i < w - 1; i++) {
+			for (int j = 1; j < h - 1; j++) {
+				int c = input.getRGB(i, j);
 				Color color = new Color(c);
 				int red = color.getRed();
 				int green = color.getGreen();
 				int blue = color.getBlue();
-				
-				avg += (red+green+blue)/3;
+				int avg = (red+green+blue)/3;
+				if( avg > max) {
+					max = avg;
+				}
 			}
 		}
-		return avg/(x*y);
+		return max;
 	}
 	
+	
+	public static int getMin(BufferedImage input) {
+		int w = input.getWidth();
+		int h = input.getHeight();
+		int min = 255;
+		
+		for (int i = 1; i < w - 1; i++) {
+			for (int j = 1; j < h - 1; j++) {
+				int c = input.getRGB(i, j);
+				Color color = new Color(c);
+				int red = color.getRed();
+				int green = color.getGreen();
+				int blue = color.getBlue();
+				int avg = (red+green+blue)/3;
+				if( avg < min) {
+					min = avg;
+				}
+			}
+		}
+		return min;
+	}
 	
 	/**
 	 * Create a vector of Int, from 0 to 180, euidistanced of step
@@ -159,8 +188,6 @@ public class Utility {
 		}
 		return thetas;
 	}
-	
-	
 	
 	/**
 	 * Convert a coordinate in the Cartesian reference system to a Coordinate in the upper-left-corner reference system.
