@@ -22,7 +22,7 @@ public class Threshold {
 	public BufferedImage outputImage;
 	
 	/**
-	 * Generate a list of edge points (coordinate) referenced to the center of the image
+	 * Generate a list of coordinate after the thresholding
 	 * @param inputImage
 	 * @return
 	 */
@@ -87,6 +87,4 @@ public class Threshold {
 		Utility.writeImage(outputImage, "threshold");
 		return output;
 	}
-	
-
 }

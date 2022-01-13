@@ -21,7 +21,7 @@ import javax.imageio.ImageIO;
 public class Utility {
 
 	/**
-	 * To read the image
+	 * Read the image
 	 * @param fileName		the path where read the file
 	 * @return
 	 */
@@ -64,7 +64,13 @@ public class Utility {
 		writeImage(output,"grayScale");
 		return output;
 	}
-
+	
+	/**
+	 * Compute the gray scale value of a Pixel
+	 * 
+	 * @param v
+	 * @return
+	 */
 	public static int getGrayScalePixel(int v) {
 		int r = (v>>16)&255;
 		int g = (v>>8)&255;
@@ -82,17 +88,14 @@ public class Utility {
 	 */
 	public static void writeImage(BufferedImage output, String name) {
 		
-		
+		//create the output dir, if it's not presents
 		if(! new File("./images/output/").isDirectory()) {
 			new File("./images/output/").mkdir();
 		}
 		
 		try{
-			
 			File f = new File("./images/output/"+name+".png");
 			ImageIO.write(output, "png", f);
-			
-			
 		}catch(IOException e){
 			System.err.println("Error in the file writing!");
 			e.printStackTrace();
@@ -115,19 +118,25 @@ public class Utility {
 	    return resizedImage;
 	}
 	
-
+	/**
+	 * Compute the avarage of an integer array
+	 * @param input
+	 * @return
+	 */
 	public static int average(ArrayList<Integer> input) {
-
 		//accumulator value
 		int avg = 0;
-		
 		for (Integer i : input) {
 			avg += i;
 		}
 		return avg/(input.size());
 	}
 	
-	
+	/**
+	 * Get the maximum value of an image
+	 * @param input
+	 * @return
+	 */
 	public static int getMax(BufferedImage input) {
 		int w = input.getWidth();
 		int h = input.getHeight();
@@ -149,7 +158,11 @@ public class Utility {
 		return max;
 	}
 	
-	
+	/**
+	 * Get the minimum value of an image
+	 * @param input
+	 * @return
+	 */
 	public static int getMin(BufferedImage input) {
 		int w = input.getWidth();
 		int h = input.getHeight();
@@ -200,7 +213,6 @@ public class Utility {
 		return new Coordinate( coordinate.X + imageWidth/2, imageHeight/2-coordinate.Y );
 	}
 	
-	
 	/**
 	 * Convert a Coordinate in in the upper-left-corner reference system to a Coordinate in the Cartesian reference system. 
 	 * @param coordinate
@@ -244,7 +256,6 @@ public class Utility {
 		return image;
 	}
 	
-	
 	/**
 	 * Get a blank (all black) image of the same size as the argument.
 	 * @param source
@@ -260,12 +271,4 @@ public class Utility {
 		}
 		return b;
 	}
-
-		
-	
-	
-	
-	
-	
-	
 }

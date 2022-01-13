@@ -1,6 +1,7 @@
 package it.unipv.cv.edge_detection;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.ArrayList;
 
 import it.unipv.cv.utils.*;
@@ -12,20 +13,26 @@ import it.unipv.cv.utils.*;
  * Computer Vision Project - 2022 - UniPV
  *
  */
-public class Test {
+public class TestEdge {
 
+	@SuppressWarnings("unused")
 	public static void main(String[] args) {
-		String InputPath = "./images/input/sudoku.png";
 		
-		/*---			test images names			---*/
-		//architecture_C.png
-		//vertical_line_C.png
-		//horizontal_line_C.png
+		// paths to a bunch of test images
+		String root = "images"+File.separator+"input"+File.separator;
+		String diagLines = root+"diagonal_lines.png";
+		String square = root+"square.png";
+		String horizontal = root+"horizontal_line_C.png";
+		String sudoku =  root+"sudoku.png";
+		String sudoku2 =  root+"sudoku_settimana.jpg";
+		
+		// pick a test image
+		String pathname = sudoku2;
 		
 		/*---			display one image			---*/
 		DisplayImage d = new DisplayImage();
 		//d.displayOneImage(InputPath,"input image");
-		BufferedImage img = Utility.read(InputPath);
+		BufferedImage img = Utility.read(pathname);
 		
 		BufferedImage grayScaleImage = Utility.toGrayScale(img, img.getWidth(), img.getHeight());
 		//d.displayOneImage(grayScaleImage, "gray scale image");
@@ -36,7 +43,7 @@ public class Test {
 		Threshold t = new Threshold();
 		t.thresholding(filteredImage);
 		BufferedImage thImage = t.outputImage;
-		d.displayOneImage(thImage, "");
+		//d.displayOneImage(thImage, "");
 		
 		
 		/*---			display more images			---*/
@@ -45,7 +52,7 @@ public class Test {
 		images.add(grayScaleImage);
 		images.add(filteredImage);
 		images.add(thImage);
-		//d.displayMoreImages(images);
+		d.displayMoreImages(images);
 				
 	}
 }

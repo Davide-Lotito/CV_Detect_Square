@@ -56,6 +56,11 @@ public class DisplayImage {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
+	/**
+	 * To display a lot of images
+	 * 
+	 * @param images
+	 */
 	public void displayMoreImages(ArrayList<BufferedImage> images) {
         JFrame frame = new JFrame();
         MyPanel e = new MyPanel(images);

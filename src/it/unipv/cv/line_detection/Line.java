@@ -107,10 +107,4 @@ public class Line{
 			
 		return b;
 	}
-	
-	
-	
-	
-	
-
 }

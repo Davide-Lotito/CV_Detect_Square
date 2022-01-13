@@ -45,7 +45,4 @@ public class Counter extends HashMap<Object, Integer>{
 		System.out.println(counter);
 		
 	}
-	
-	
-
 }

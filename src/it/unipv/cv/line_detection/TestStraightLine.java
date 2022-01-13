@@ -15,8 +15,9 @@ import it.unipv.cv.utils.Utility;
  * Computer Vision Project - 2022 - UniPV
  *
  */
-public class Test {
+public class TestStraightLine {
 
+	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 
 
@@ -31,10 +32,8 @@ public class Test {
 		// pick a test image
 		String pathname = sudoku2;
 		
-		
 		//read the image and make a copy of it
 		BufferedImage image = Utility.read(pathname);
-		
 
 		//detect the lines on the image
 		LineFinder lineFinder = new LineFinder();
@@ -44,20 +43,16 @@ public class Test {
 		for(Line line : lines) {
 			image = line.draw(image);
 		}
+		LineFinder.imageSequence.add(image);
 		
-		for(int i=0; i<lineFinder.imageSequence.size(); i++) {
-			new DisplayImage().displayOneImage(lineFinder.imageSequence.get(i), i+"");
-		}
+		//for(int i=0; i<LineFinder.imageSequence.size(); i++) {
+		//	new DisplayImage().displayOneImage(LineFinder.imageSequence.get(i), i+"");
+		//}
 		
-		//display the images with the detected lines
-		new DisplayImage().displayOneImage(image, "detected lines");
-
-
+		//display the image with the detected lines
+		//new DisplayImage().displayOneImage(image, "detected lines");
+		
+		//display all the images
+		new DisplayImage().displayMoreImages(LineFinder.imageSequence);
 	}
-
-
-
-
-
-
 }
