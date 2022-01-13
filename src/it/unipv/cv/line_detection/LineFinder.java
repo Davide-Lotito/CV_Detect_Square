@@ -2,11 +2,6 @@ package it.unipv.cv.line_detection;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
-
-
 import it.unipv.cv.edge_detection.EdgeDetector;
 import it.unipv.cv.edge_detection.SobelFilter;
 import it.unipv.cv.edge_detection.Threshold;
@@ -28,8 +23,6 @@ import java.util.logging.Logger;
  */
 public class LineFinder {
 
-
-
 	/**
 	 * Minimum number of votes (edge-points) that a line needs to be considered a real edge-line.
 	 */
@@ -50,11 +43,9 @@ public class LineFinder {
 		
 		logger = Logger.getLogger("");
 		
-		
 		MIN_VOTES = (int)(0.5*Math.min(img.getWidth(), img.getHeight()));
 		imageSequence = new ArrayList<BufferedImage>();
 		imageSequence.add(img);
-		
 		
 		//get the edge-points as coordinates on a CARTESIAN plane. 
 		BufferedImage grey = Utility.toGrayScale(img, img.getWidth(), img.getHeight());
@@ -70,7 +61,6 @@ public class LineFinder {
 		imageSequence.add(Utility.plotPoints(Utility.blankImage(img), edgePoints));
 		logger.log(Level.INFO, "DONE: Applied threshold to edge-points.");
 
-		
 		//get 'all possible' lines passing through the edge-points
 		ArrayList<Line> lines = new ArrayList<Line>();
 		for(Coordinate point : edgePoints) {
@@ -138,10 +128,4 @@ public class LineFinder {
 		}
 		return lines;
 	}
-	
-
-
-
-
-
 }

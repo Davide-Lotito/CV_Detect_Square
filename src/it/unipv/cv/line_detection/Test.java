@@ -29,7 +29,7 @@ public class Test {
 		String sudoku2 =  root+"sudoku_settimana.jpg";
 
 		// pick a test image
-		String pathname = sudoku2;
+		String pathname = sudoku;
 		
 		
 		//read the image and make a copy of it

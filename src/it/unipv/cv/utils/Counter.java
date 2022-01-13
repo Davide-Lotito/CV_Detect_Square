@@ -16,6 +16,12 @@ import it.unipv.cv.line_detection.Line;
 public class Counter extends HashMap<Object, Integer>{
 	
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+
 	public void add(Object object) {
 		Integer value = get(object);
 		

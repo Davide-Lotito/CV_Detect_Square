@@ -4,13 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-
-
 import it.unipv.cv.utils.Coordinate;
 import it.unipv.cv.utils.Utility;
-
-
 
 /**
  * 
@@ -58,7 +53,6 @@ public class Line{
 			
 	}
 
-	
 	@Override
 	public String toString() {
 		return MessageFormat.format("Line(theta={0}, rho={1}, slope={2}, y-intercept={3})", theta, rho, slope, yintercept);
@@ -78,7 +72,6 @@ public class Line{
 		return true;
 	}
 	
-	
 	@Override
 	public int hashCode() {
 		return (int)(rho+theta);
@@ -92,7 +85,6 @@ public class Line{
 	public double evaluate(double x) {
 		return (slope * x) + yintercept;
 	}
-	
 	
 	/**
 	 * Draw this line on an image and return a copy.
