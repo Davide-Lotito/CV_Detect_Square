@@ -18,6 +18,10 @@ public class TestEdge {
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		
+		// command lines operations
+		CommandLine command = new CommandLine(args);
+		String pathname = command.name;
+		
 		// paths to a bunch of test images
 		String root = "images"+File.separator+"input"+File.separator;
 		String diagLines = root+"diagonal_lines.png";
@@ -25,9 +29,10 @@ public class TestEdge {
 		String horizontal = root+"horizontal_line_C.png";
 		String sudoku =  root+"sudoku.png";
 		String sudoku2 =  root+"sudoku_settimana.jpg";
+		String arch = "root"+ "architecture_C.png";
 		
 		// pick a test image
-		String pathname = sudoku2;
+		//String pathname = sudoku2;
 		
 		/*---			display one image			---*/
 		DisplayImage d = new DisplayImage();

@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
 
-
+import it.unipv.cv.utils.CommandLine;
 import it.unipv.cv.utils.DisplayImage;
 import it.unipv.cv.utils.Utility;
 
@@ -20,6 +20,9 @@ public class TestStraightLine {
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 
+		// command lines operations
+		CommandLine command = new CommandLine(args);
+		String pathname = command.name;
 
 		// paths to a bunch of test images
 		String root = "images"+File.separator+"input"+File.separator;
@@ -30,7 +33,7 @@ public class TestStraightLine {
 		String sudoku2 =  root+"sudoku_settimana.jpg";
 
 		// pick a test image
-		String pathname = sudoku2;
+		//String pathname = sudoku2;
 		
 		//read the image and make a copy of it
 		BufferedImage image = Utility.read(pathname);
