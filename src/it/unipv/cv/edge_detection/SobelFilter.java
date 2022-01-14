@@ -15,7 +15,7 @@ public class SobelFilter implements EdgeDetector{
 	
 	/**
 	 * Produce an image, after Sobel Filtering
-	 * @param image The image to analize
+	 * @param image gray scale image to analize
 	 */
 	public BufferedImage filtering(BufferedImage image) {
 		int x = image.getWidth();
@@ -28,17 +28,27 @@ public class SobelFilter implements EdgeDetector{
         for (int i = 1; i < x - 1; i++) {
             for (int j = 1; j < y - 1; j++) {
 
-                int val00 = Utility.getGrayScalePixel(image.getRGB(i - 1, j - 1));
-                int val01 = Utility.getGrayScalePixel(image.getRGB(i - 1, j));
-                int val02 = Utility.getGrayScalePixel(image.getRGB(i - 1, j + 1));
+                //int val00 = Utility.getGrayScalePixel(image.getRGB(i - 1, j - 1));
+            	int val00 = (image.getRGB(i - 1, j - 1))&0xFF;
+                //int val01 = Utility.getGrayScalePixel(image.getRGB(i - 1, j));
+            	int val01 = (image.getRGB(i - 1, j))&0xFF;
+            	//int val02 = Utility.getGrayScalePixel(image.getRGB(i - 1, j + 1));
+            	int val02 = (image.getRGB(i - 1, j + 1))&0xFF;
+            	
+                //int val10 = Utility.getGrayScalePixel(image.getRGB(i, j - 1));
+            	int val10 = (image.getRGB(i, j - 1))&0xFF;
+                //int val11 = Utility.getGrayScalePixel(image.getRGB(i, j));
+            	int val11 = (image.getRGB(i, j))&0xFF;
+                //int val12 = Utility.getGrayScalePixel(image.getRGB(i, j + 1));
+            	int val12 = (image.getRGB(i, j + 1))&0xFF;
 
-                int val10 = Utility.getGrayScalePixel(image.getRGB(i, j - 1));
-                int val11 = Utility.getGrayScalePixel(image.getRGB(i, j));
-                int val12 = Utility.getGrayScalePixel(image.getRGB(i, j + 1));
-
-                int val20 = Utility.getGrayScalePixel(image.getRGB(i + 1, j - 1));
-                int val21 = Utility.getGrayScalePixel(image.getRGB(i + 1, j));
-                int val22 = Utility.getGrayScalePixel(image.getRGB(i + 1, j + 1));
+                //int val20 = Utility.getGrayScalePixel(image.getRGB(i + 1, j - 1));
+            	int val20 = (image.getRGB(i + 1, j - 1))&0xFF;
+                //int val21 = Utility.getGrayScalePixel(image.getRGB(i + 1, j));
+            	int val21 = (image.getRGB(i + 1, j))&0xFF;
+                //int val22 = Utility.getGrayScalePixel(image.getRGB(i + 1, j + 1));
+            	int val22 = (image.getRGB(i + 1, j + 1))&0xFF;
+            	
 
                 int gx =  ((-1 * val00) + (0 * val01) + (1 * val02)) 
                         + ((-2 * val10) + (0 * val11) + (2 * val12))
