@@ -1,10 +1,9 @@
 A list of TODO things:
 
-* utility Class -- ok
-* to Gray Scale Image method -- ok
-* Convolution Class
-* Edges Class
-* Straight Line Class
+* Line intersection finder
 * Square Class
-* Edge Detector Interface
-* Edge Detector Class (Sobel) 
+* Coord suppression based on distance between Coords
+* Construct Squares from remaining points.
+
+
+
