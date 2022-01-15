@@ -43,7 +43,7 @@ public class LineFinder {
 		
 		logger = Logger.getLogger("");
 		
-		MIN_VOTES = (int)(0.5*Math.min(img.getWidth(), img.getHeight()));
+		MIN_VOTES = (int)(0.4*Math.min(img.getWidth(), img.getHeight()));
 		imageSequence = new ArrayList<BufferedImage>();
 		imageSequence.add(img);
 		

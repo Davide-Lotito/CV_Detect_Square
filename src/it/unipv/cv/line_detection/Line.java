@@ -65,7 +65,16 @@ public class Line{
 			return false;
 		}
 		
-		if(((Line)otherLine).rho != this.rho) {
+//		if(Math.abs(((Line)otherLine).theta - this.theta) > 0.1) {
+//			return false;
+//		}
+		
+		
+//		if(((Line)otherLine).rho != this.rho) {
+//			return false;
+//		}
+		
+		if(Math.abs(((Line)otherLine).rho - this.rho) > 4) {
 			return false;
 		}
 		
@@ -85,6 +94,20 @@ public class Line{
 	public double evaluate(double x) {
 		return (slope * x) + yintercept;
 	}
+	
+	
+	public Coordinate intersects(Line otherLine) {
+		
+		if(otherLine.equals(this)) {
+			throw new IllegalArgumentException("Ma sei, scemo? "+this+" "+otherLine+" rette coincidenti");
+		}
+		
+		double x =  (otherLine.yintercept - this.yintercept)/(this.slope - otherLine.slope);
+		double y =   evaluate(x);
+		return new Coordinate( (int)Math.round(x), (int)Math.round(y) );
+	}
+	
+	
 	
 	/**
 	 * Draw this line on an image and return a copy.
@@ -107,4 +130,16 @@ public class Line{
 			
 		return b;
 	}
+	
+	
+	
+//	public static void main(String[] args) {
+//		Line line = new Line(3, 0.5);
+//		Line line2 = new Line(4, 1.2);
+//		System.out.println(line);
+//		System.out.println(line2);
+//		System.out.println(line.intersects(line2));
+//	}
+//	
+	
 }

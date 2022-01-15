@@ -16,9 +16,13 @@ import it.unipv.cv.utils.Utility;
  */
 public class Threshold {
 
-	private int OLDTHRESHOLD = 75;
-//	private int DIFFERENCE = 15;
-//	private int NEWTHRESHOLD;
+	private int OLDTHRESHOLD = 60; //60 
+	
+	
+//	private int DIFFERENCE = 3; //
+//	private int NEWTHRESHOLD;  //
+	
+	
 	public BufferedImage outputImage;
 	
 	/**
@@ -58,7 +62,7 @@ public class Threshold {
 //			m2 = Utility.average(outputU);
 //			NEWTHRESHOLD = (m1+m2)/2;
 //			/*----------------------------*/
-//			//System.out.println(NEWTHRESHOLD);
+//			System.out.println(NEWTHRESHOLD);
 //			if ((Math.abs(NEWTHRESHOLD - OLDTHRESHOLD) >= DIFFERENCE)) {
 //				break;
 //			} else {
@@ -85,6 +89,7 @@ public class Threshold {
 		
 		
 		Utility.writeImage(outputImage, "threshold");
+		
 		return output;
 	}
 }

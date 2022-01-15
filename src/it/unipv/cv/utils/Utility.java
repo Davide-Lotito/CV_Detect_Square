@@ -1,5 +1,6 @@
 package it.unipv.cv.utils;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -246,12 +247,15 @@ public class Utility {
 	public static BufferedImage plotPoints(BufferedImage image, ArrayList<Coordinate> points) {
 		
 		Graphics2D g = (Graphics2D) image.getGraphics();
-		g.setColor(Color.red);
+		g.setColor(Color.blue);
+		
 		
 		for(Coordinate c : points) {
 			Coordinate pixel = coordToPixel(c, image.getWidth(), image.getHeight());
-			g.fillRect(pixel.X, pixel.Y, 1, 1);
+			g.fillRect(pixel.X, pixel.Y,5, 5);
+			g.drawString(c.toString(), pixel.X, pixel.Y);
 		}
+		g.setColor(Color.red);
 		g.dispose();
 		return image;
 	}
