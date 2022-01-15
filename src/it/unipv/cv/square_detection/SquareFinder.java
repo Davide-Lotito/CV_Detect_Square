@@ -32,41 +32,14 @@ public class SquareFinder {
 		//System.out.println("Searching for intersections....");
 		for(Line line1 : lines) {
 			for(Line line2 : lines) {
-				if(line1.isParallel(line2)) continue;
-				Coordinate c;
 				try {
-					c = line1.intersects(line2);
+					Coordinate  c = line1.intersects(line2);
 					intersections.add(c);
 				} catch (Exception e) {
-					System.out.println(e.getMessage());
+					System.err.println(e.getMessage());
 				}
-//				try {
-//					Coordinate c = line1.intersects(line2);
-//					if(c.X == 0 || c.Y == 0) {
-//						System.out.println(line1);
-//						System.out.println(line2);
-//						System.out.println("---");
-//					}
-//					intersections.add(c);
-//				} catch (Exception e) {
-//					System.err.println(e.getMessage());
-//				}
-//			}
 			}
 		}
-		
-		
-//		// Removing points that are too close to the origin.
-//		Coordinate origin = new Coordinate(0, 0);
-//		// This is crazy, but it works ¯\_(ツ)_/¯:
-//		for(int i = 0; i< intersections.size()+1 /*BUT WHY? ¯\_(ツ)_/¯ */; i++) {
-//			Coordinate pt = intersections.get(i);
-//			if( origin.distance(pt) < 10 ) {				
-//				intersections.remove(i);
-//				intersections.remove(i);// BUT WHY? ¯\_(ツ)_/¯
-//			}
-//		}
-//		// PS: Also, Shrugging Emoji makes eclipse's editor go bonkers! ¯\_(ツ)_/¯ ¯\_(ツ)_/¯
 		
 		
 		// Plotting the lines and the square-edges that where found:

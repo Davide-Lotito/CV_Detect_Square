@@ -97,6 +97,15 @@ public class Line{
 	}
 	
 	/**
+	 * Check if two lines are parallels
+	 * @param line2
+	 * @return
+	 */
+	public boolean isParallel(Line line2) {
+		return ((this.slope - line2.slope)<1.0);
+	}
+	
+	/**
 	 * Compute the intersection between two lines 
 	 * @param otherLine
 	 * @return
@@ -105,9 +114,15 @@ public class Line{
 	public Coordinate intersects(Line otherLine) throws Exception {
 		
 		if(otherLine.equals(this)) {
-			throw new Exception("coincident lines");
+			throw new Exception("Coincident lines, all intersections!");
 			//throw new IllegalArgumentException(this+" "+otherLine+" coincident lines");
 		}
+		
+		if(otherLine.isParallel(this)) {
+			throw new Exception("Parallel lines, no intersections!");
+		}
+		
+		
 		double x =  (otherLine.yintercept - this.yintercept)/(this.slope - otherLine.slope);
 		double y =   evaluate(x);
 		return new Coordinate( (int)Math.round(x), (int)Math.round(y) );
@@ -136,16 +151,7 @@ public class Line{
 		return b;
 	}
 	
-	/**
-	 * Check if two lines are parallels
-	 * @param line2
-	 * @return
-	 */
-	public Boolean isParallel(Line line2) {
-		if((this.slope - line2.slope)<1.0) return true;
-		return false;
-	}
-	
+
 	
 	/**
 	 * Only to test! REMOVE IT BEFORE THE DELIVERY
