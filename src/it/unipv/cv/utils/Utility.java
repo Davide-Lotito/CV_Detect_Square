@@ -1,6 +1,5 @@
 package it.unipv.cv.utils;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -8,7 +7,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import javax.imageio.ImageIO;
 
 
@@ -247,12 +245,34 @@ public class Utility {
 	public static BufferedImage plotPoints(BufferedImage image, ArrayList<Coordinate> points) {
 		
 		Graphics2D g = (Graphics2D) image.getGraphics();
+		g.setColor(Color.red);
+		
+		
+		for(Coordinate c : points) {
+			Coordinate pixel = coordToPixel(c, image.getWidth(), image.getHeight());
+			g.fillRect(pixel.X, pixel.Y, 1, 1);
+		}
+		g.setColor(Color.red);
+		g.dispose();
+		return image;
+	}
+	
+	/**
+	 * Plot a set of points with with a defined thickness, on a buffered image	
+	 * @param image
+	 * @param points
+	 * @param thickness
+	 * @return
+	 */
+	public static BufferedImage plotPoints(BufferedImage image, ArrayList<Coordinate> points, int thickness) {
+		
+		Graphics2D g = (Graphics2D) image.getGraphics();
 		g.setColor(Color.blue);
 		
 		
 		for(Coordinate c : points) {
 			Coordinate pixel = coordToPixel(c, image.getWidth(), image.getHeight());
-			g.fillRect(pixel.X, pixel.Y,5, 5);
+			g.fillRect(pixel.X, pixel.Y,thickness, thickness);
 			g.drawString(c.toString(), pixel.X, pixel.Y);
 		}
 		g.setColor(Color.red);

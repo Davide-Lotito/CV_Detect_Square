@@ -21,8 +21,8 @@ public class TestStraightLine {
 	public static void main(String[] args) {
 
 		// command lines operations
-//		CommandLine command = new CommandLine(args);
-//		String pathname = command.name;
+		//CommandLine command = new CommandLine(args);
+		//String pathname = command.name;
 
 		// paths to a bunch of test images
 		String root = "images"+File.separator+"input"+File.separator;
@@ -31,33 +31,38 @@ public class TestStraightLine {
 		String horizontal = root+"horizontal_line_C.png";
 		String sudoku =  root+"sudoku.png";
 		String sudoku2 =  root+"sudoku_settimana.jpg";
+		String test1 = root+"test_square.png";
 
 		// pick a test image
-		String pathname = sudoku2;
-		
+		String pathname = square;
+
 		//read the image and make a copy of it
-//		BufferedImage image = Utility.read(pathname);
-		
+		//BufferedImage image = Utility.read(pathname);
+
 		BufferedImage image = Utility.read(pathname);
 
 		//detect the lines on the image
 		LineFinder lineFinder = new LineFinder();
 		ArrayList<Line> lines = lineFinder.detectLines(image);
-		
+
 		//draw each line
-		for(Line line : lines) {
-			image = line.draw(image);
+		//for(Line line : lines) {
+		//remove equals lines
+		for(int i=0; i<lines.size()-1; i++) {
+			Line line1 = lines.get(i);
+			Line line2 = lines.get(i+1);
+			if(line1.equals(line2)) {
+				//lines.remove(line1);
+				continue;
+			}	
+			image = line1.draw(image);
 		}
 		LineFinder.imageSequence.add(image);
-		
-		//for(int i=0; i<LineFinder.imageSequence.size(); i++) {
-		//	new DisplayImage().displayOneImage(LineFinder.imageSequence.get(i), i+"");
-		//}
-		
+
 		//display the image with the detected lines
-		//new DisplayImage().displayOneImage(image, "detected lines");
-		
+		new DisplayImage().displayOneImage(LineFinder.imageSequence.get(LineFinder.imageSequence.size()-2), "thresholding");
+		new DisplayImage().displayOneImage(image, "detected lines");
 		//display all the images
-		new DisplayImage().displayMoreImages(LineFinder.imageSequence);
+		//new DisplayImage().displayMoreImages(LineFinder.imageSequence);
 	}
 }

@@ -32,7 +32,10 @@ public class Counter extends HashMap<Object, Integer>{
 		}
 	}
 	
-	
+	/**
+	 * Only to test! REMOVE IT BEFORE THE DELIVERY
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		Line line = new Line(1,2);
 		Line lineCopy = new Line(1,2);

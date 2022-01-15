@@ -3,7 +3,6 @@
  */
 package it.unipv.cv.utils;
 
-import java.io.File;
 import java.util.Scanner;
 
 /**

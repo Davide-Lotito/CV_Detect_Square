@@ -30,7 +30,7 @@ public class Line{
 	/**
 	 * Slope of the line.
 	 */
-	final public double slope;
+	public double slope;
 
 	/**
 	 * y-intercept of the line.
@@ -50,6 +50,7 @@ public class Line{
 		//https://aishack.in/tutorials/converting-lines-normal-slopeintercept-form/
 		slope = - (Math.cos(theta)/Math.sin(theta));
 		yintercept = rho*(1/Math.sin(theta));
+
 			
 	}
 
@@ -61,22 +62,22 @@ public class Line{
 	@Override
 	public boolean equals(Object otherLine) {
 		
-		if(((Line)otherLine).theta != this.theta) {
+		if((Math.abs(((Line)otherLine).rho - this.rho) > 4)) {
 			return false;
 		}
 		
 //		if(Math.abs(((Line)otherLine).theta - this.theta) > 0.1) {
 //			return false;
 //		}
+		if(((Line)otherLine).theta != this.theta) {
+			return false;
+		}
 		
 		
 //		if(((Line)otherLine).rho != this.rho) {
 //			return false;
 //		}
 		
-		if(Math.abs(((Line)otherLine).rho - this.rho) > 4) {
-			return false;
-		}
 		
 		return true;
 	}
@@ -95,19 +96,22 @@ public class Line{
 		return (slope * x) + yintercept;
 	}
 	
-	
-	public Coordinate intersects(Line otherLine) {
+	/**
+	 * Compute the intersection between two lines 
+	 * @param otherLine
+	 * @return
+	 * @throws Exception 
+	 */
+	public Coordinate intersects(Line otherLine) throws Exception {
 		
 		if(otherLine.equals(this)) {
-			throw new IllegalArgumentException("Ma sei, scemo? "+this+" "+otherLine+" rette coincidenti");
+			throw new Exception("coincident lines");
+			//throw new IllegalArgumentException(this+" "+otherLine+" coincident lines");
 		}
-		
 		double x =  (otherLine.yintercept - this.yintercept)/(this.slope - otherLine.slope);
 		double y =   evaluate(x);
 		return new Coordinate( (int)Math.round(x), (int)Math.round(y) );
 	}
-	
-	
 	
 	/**
 	 * Draw this line on an image and return a copy.
@@ -118,9 +122,10 @@ public class Line{
 	    
 		b = Utility.copyImage(b);
 		Graphics2D g = (Graphics2D) b.getGraphics();
+		//the color of the lines
 		g.setColor(Color.red);
 		int lowerBoundX = Utility.pixelToCoord(new Coordinate(0, 0) , b.getWidth(), b.getHeight()).X;
-		int upperBoundX =  Utility.pixelToCoord(new Coordinate( b.getWidth(), b.getHeight()) , b.getWidth(), b.getHeight()).X;		
+		int upperBoundX = Utility.pixelToCoord(new Coordinate( b.getWidth(), b.getHeight()) , b.getWidth(), b.getHeight()).X;		
 		int lowerBoundY = (int)evaluate(lowerBoundX);
 		int upperBoundY = (int)evaluate(upperBoundX);
 		Coordinate c1 = Utility.coordToPixel(new Coordinate(lowerBoundX, lowerBoundY), b.getWidth(), b.getHeight());
@@ -131,15 +136,29 @@ public class Line{
 		return b;
 	}
 	
+	/**
+	 * Check if two lines are parallels
+	 * @param line2
+	 * @return
+	 */
+	public Boolean isParallel(Line line2) {
+		if((this.slope - line2.slope)<1.0) return true;
+		return false;
+	}
 	
 	
-//	public static void main(String[] args) {
-//		Line line = new Line(3, 0.5);
-//		Line line2 = new Line(4, 1.2);
-//		System.out.println(line);
-//		System.out.println(line2);
-//		System.out.println(line.intersects(line2));
-//	}
-//	
+	/**
+	 * Only to test! REMOVE IT BEFORE THE DELIVERY
+	 * @param args
+	 * @throws Exception 
+	 */
+	public static void main(String[] args) throws Exception {
+		Line line = new Line(3, 0.5);
+		Line line2 = new Line(4, 1.2);
+		System.out.println(line);
+		System.out.println(line2);
+		System.out.println(line.intersects(line2));
+	}
+	
 	
 }
