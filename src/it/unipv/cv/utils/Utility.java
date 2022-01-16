@@ -273,7 +273,7 @@ public class Utility {
 		for(Coordinate c : points) {
 			Coordinate pixel = coordToPixel(c, image.getWidth(), image.getHeight());
 			g.fillRect(pixel.X, pixel.Y,thickness, thickness);
-			g.drawString(c.toString(), pixel.X, pixel.Y);
+			//g.drawString(c.toString(), pixel.X, pixel.Y);
 		}
 		g.setColor(Color.red);
 		g.dispose();

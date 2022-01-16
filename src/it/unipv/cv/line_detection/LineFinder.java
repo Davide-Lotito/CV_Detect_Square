@@ -43,7 +43,7 @@ public class LineFinder {
 		
 		logger = Logger.getLogger("");
 		
-		MIN_VOTES = (int)(0.4*Math.min(img.getWidth(), img.getHeight()));
+		MIN_VOTES = (int)(0.5*Math.min(img.getWidth(), img.getHeight()));
 		imageSequence = new ArrayList<BufferedImage>();
 		imageSequence.add(img);
 		
@@ -84,9 +84,27 @@ public class LineFinder {
 			results.add((Line)line);
 		}
 		
-		logger.log(Level.INFO, "These lines where detected:");
+		for(int j=0; j<results.size()-1; j++) {
+			Line line1 = results.get(j);
+			Line line2 = results.get(j+1);
+			if(line1.equals(line2))
+				results.remove(j);	
+		}
+		
+		for(int k=0; k<results.size(); k++) {
+			if(!(results.get(k).checkLine())) {
+				//linea brutta
+				System.out.println("rimossa "+results.get(k).toString());
+				results.remove(k);
+			}
+		}
+		
+		//logger.log(Level.INFO, "These lines where detected:");
+		System.out.println("\n\n---------");
+		System.out.println("Line finali");
 		for(Line line : results) {
-			logger.log(Level.INFO, line.toString());
+			//logger.log(Level.INFO, line.toString());
+			System.out.println(line);
 		}
 		
 		return results;

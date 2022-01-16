@@ -78,7 +78,6 @@ public class Line{
 //			return false;
 //		}
 		
-		
 		return true;
 	}
 	
@@ -102,7 +101,17 @@ public class Line{
 	 * @return
 	 */
 	public boolean isParallel(Line line2) {
-		return ((this.slope - line2.slope)<1.0);
+		return ((Math.abs(this.slope - line2.slope))<2.0);
+	}
+	
+	public boolean checkLine() {
+		if(Math.abs(this.slope)<0.01) {
+			return true;
+		}
+		if(this.theta<1.6) {
+			return (this.rho>0);
+		} 
+		return (this.rho<0);
 	}
 	
 	/**
@@ -121,10 +130,10 @@ public class Line{
 		if(otherLine.isParallel(this)) {
 			throw new Exception("Parallel lines, no intersections!");
 		}
-		
+				
 		
 		double x =  (otherLine.yintercept - this.yintercept)/(this.slope - otherLine.slope);
-		double y =   evaluate(x);
+		double y =  evaluate(x);
 		return new Coordinate( (int)Math.round(x), (int)Math.round(y) );
 	}
 	
@@ -158,13 +167,13 @@ public class Line{
 	 * @param args
 	 * @throws Exception 
 	 */
-	public static void main(String[] args) throws Exception {
-		Line line = new Line(3, 0.5);
-		Line line2 = new Line(4, 1.2);
-		System.out.println(line);
-		System.out.println(line2);
-		System.out.println(line.intersects(line2));
-	}
+//	public static void main(String[] args) throws Exception {
+//		Line line = new Line(3, 0.5);
+//		Line line2 = new Line(4, 1.2);
+//		System.out.println(line);
+//		System.out.println(line2);
+//		System.out.println(line.intersects(line2));
+//	}
 	
 	
 }
