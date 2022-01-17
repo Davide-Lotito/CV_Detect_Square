@@ -67,7 +67,7 @@ public class SquareFinder {
 		}
 		
 		image = Utility.plotPoints(image, newIntersections,5);	
-		new DisplayImage().displayOneImage(image, "Square Edges");
+		new DisplayImage().displayOneImage(image, "interesections");
 
 		// USE THE INTERSECTION POINTS TO BUILD SQUARES
 		return null;
@@ -80,7 +80,7 @@ public class SquareFinder {
 	 */
 	public static void main(String[] args) {
 		SquareFinder squareFinder  = new SquareFinder();
-		BufferedImage image = Utility.read("./images/input/square.png");
+		BufferedImage image = Utility.read("./images/input/test_square.png");
 		squareFinder.detectSquares(image);
 	}
 }

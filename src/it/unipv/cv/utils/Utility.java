@@ -183,7 +183,7 @@ public class Utility {
 	 * @return
 	 */
 	public  static Coordinate coordToPixel(Coordinate coordinate, int imageWidth, int imageHeight) {
-		return new Coordinate( coordinate.X + imageWidth/2, imageHeight/2-coordinate.Y );
+		return new Coordinate( coordinate.X + imageWidth/2, imageHeight/2 - coordinate.Y );
 	}
 	
 	/**

@@ -2,6 +2,8 @@ package it.unipv.cv.line_detection;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Comparator;
+
 import it.unipv.cv.edge_detection.EdgeDetector;
 import it.unipv.cv.edge_detection.SobelFilter;
 import it.unipv.cv.edge_detection.Threshold;
@@ -34,6 +36,11 @@ public class LineFinder {
 	 */
 	private Logger logger;
 
+	/**
+	 * Lines
+	 */
+	ArrayList<Line> lines;
+
 
 	public ArrayList<Line> detectLines(BufferedImage img){
 
@@ -42,7 +49,7 @@ public class LineFinder {
 		/**
 		 * Min votes for the Hough Transform
 		 */
-		MIN_VOTES = (int)(0.5*Math.min(img.getWidth(), img.getHeight()));
+		MIN_VOTES = (int)(0.3*Math.min(img.getWidth(), img.getHeight()));
 
 		BufferedImage grayScale = Utility.toGrayScale(img);
 
@@ -59,6 +66,15 @@ public class LineFinder {
 		for(Coordinate point : edgePoints) {
 			lines.addAll(getLinesFor(point));
 		}
+		//		lines = new ArrayList<Line>();
+		//		for(Coordinate point : edgePoints) {
+		//			ArrayList<Line> allLines = getLinesFor(point);
+		//			for(Line line : allLines) {
+		//				if(!contains(line)) {
+		//					lines.add(line);
+		//				}
+		//			}
+		//		}
 
 		logger.log(Level.INFO, "DONE: Obtained all possible lines.");
 
@@ -84,36 +100,49 @@ public class LineFinder {
 		/**
 		 * Remove equal lines
 		 */
-		logger.log(Level.WARNING, "These lines where removed because equals:");
-		for(int j=0; j<results.size()-1; j++) {
-			Line line1 = results.get(j);
-			Line line2 = results.get(j+1);
-			if(line1.equals(line2))
-				logger.log(Level.WARNING,"removed "+line2.toString());
-			results.remove(j);	
-		}
+		//		logger.log(Level.WARNING, "These lines where removed because equals:");
+		//		for(int j=0; j<results.size()-1; j++) {
+		//			Line line1 = results.get(j);
+		//			Line line2 = results.get(j+1);
+		//			if(line1.equals(line2)) {
+		//				logger.log(Level.WARNING,"removed "+line2.toString());
+		//				results.remove(j);	
+		//			}
+		//		}
 
 		/**
 		 * Remove non-valid "mathematically" lines
 		 */
 		logger.log(Level.WARNING, "These lines where removed because non-valid:");
+		ArrayList<Line> valids = new ArrayList<Line>();	
 		for(int k=0; k<results.size(); k++) {
-			if(!(results.get(k).checkLine())) {
+			if((results.get(k).checkLine())) {
+				//logger.log(Level.WARNING,"removed "+results.get(k).toString());
+				valids.add(results.get(k));
+				//results.remove(k);
+			} else {
 				logger.log(Level.WARNING,"removed "+results.get(k).toString());
-				results.remove(k);
 			}
 		}
 
-		//logger.log(Level.INFO, "These lines are the ones found and correct:");
-		System.out.println("CORRECT LINES:");
+		//		logger.log(Level.WARNING, "These lines where removed because similar:");
+		//		for(int j=0; j<valids.size()-1; j++) {
+		//			Line line1 = valids.get(j);
+		//			Line line2 = valids.get(j+1);
+		//			if(line1.similarLines(line2)) {
+		//				logger.log(Level.WARNING,"removed "+line2.toString());
+		//				valids.remove(j);
+		//			}
+		//		}
+
+		logger.log(Level.INFO, "CORRECT LINES");
 		int COUNTER = 1;
-		for(Line line : results) {
-			//logger.log(Level.INFO, line.toString());
-			System.out.println("["+COUNTER+"] "+line.toString());
+		for(Line line : valids) {
+			logger.log(Level.INFO, ("["+COUNTER+"] "+line.toString()));
 			COUNTER++;
 		}
 
-		return results;
+		return lines;
 	}
 
 	/**
@@ -150,6 +179,15 @@ public class LineFinder {
 			lines.add(line);
 		}
 		return lines;
+	}
+
+	public Boolean contains(Line lineToCheck) {
+		for(Line line: lines) {
+			if(line.similarLines(lineToCheck)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**

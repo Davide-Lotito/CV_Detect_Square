@@ -17,7 +17,6 @@ import it.unipv.cv.utils.Utility;
 public class Line{
 
 	private static final double DIFFERENCEslope = 2.0;
-
 	private static final int DIFFERENCErho = 4;
 
 	/**
@@ -62,16 +61,15 @@ public class Line{
 
 	@Override
 	public boolean equals(Object otherLine) {
-
 		/**
 		 * not equals if the difference of their rho is bigger than DIFFERENCErho
 		 */
-		if((Math.abs(((Line)otherLine).rho - this.rho) > DIFFERENCErho)) {
-			return false;
-		}
-		//		if(((Line)otherLine).rho != this.rho) {
+		//		if((Math.abs(((Line)otherLine).rho - this.rho) > DIFFERENCErho)) {
 		//			return false;
 		//		}
+		if(((Line)otherLine).rho != this.rho) {
+			return false;
+		}
 
 		//		if(Math.abs(((Line)otherLine).theta - this.theta) > 0.1) {
 		//			return false;
@@ -120,6 +118,16 @@ public class Line{
 			return (this.rho>0);
 		} 
 		return (this.rho<0);
+	}
+
+	public boolean similarLines(Line line) {
+		/**
+		 * True if the two lines are too much "similiar"
+		 */
+		if((Math.abs(((Line)line).rho - this.rho) < 4) && Math.abs(((Line)line).theta - this.theta) < 0.1) {
+			return true;
+		}
+		return false;
 	}
 
 	/**
