@@ -3,8 +3,12 @@ package it.unipv.cv.edge_detection;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import it.unipv.cv.lut.ToGrayScale;
 import it.unipv.cv.utils.Coordinate;
+import it.unipv.cv.utils.DisplayImage;
 import it.unipv.cv.utils.Utility;
 
 /**
@@ -15,13 +19,15 @@ import it.unipv.cv.utils.Utility;
  *
  */
 public class Threshold {
-
+	
+	/**
+	 * Used to log messages of this class.
+	 */
+	private Logger logger;
+	
 	private int OLDTHRESHOLD = 60; //60 
-	
-	
 //	private int DIFFERENCE = 3; //
 //	private int NEWTHRESHOLD;  //
-	
 	
 	public BufferedImage outputImage;
 	
@@ -31,6 +37,7 @@ public class Threshold {
 	 * @return
 	 */
 	public ArrayList<Coordinate> thresholding(BufferedImage inputImage){
+		logger = Logger.getLogger("");
 //		ArrayList<Integer> outputU = new ArrayList<Integer>();
 //		ArrayList<Integer> outputL = new ArrayList<Integer>();
 		ArrayList<Coordinate> output = new ArrayList<Coordinate>();
@@ -86,10 +93,21 @@ public class Threshold {
 				}	
 			}
 		}
-		
-		
-		Utility.writeImage(outputImage, "threshold");
-		
+		logger.log(Level.INFO, "DONE: Applied threshold to edge-points.");
 		return output;
+	}
+	
+	/**
+	 * Only to test! REMOVE IT BEFORE THE DELIVERY
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		String name = "horizontal_line_C.png";	
+		BufferedImage img = Utility.read("./images/input/"+name);	
+		BufferedImage grayScale = new ToGrayScale(img).perform();
+		BufferedImage sobelImage = new SobelFilter().filtering(grayScale);
+		Threshold th = new Threshold();
+		th.thresholding(sobelImage);//apply the thresholding
+		new DisplayImage().displayOneImage(th.outputImage, "Thresholded image");
 	}
 }

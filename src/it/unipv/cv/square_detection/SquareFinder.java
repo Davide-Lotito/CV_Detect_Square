@@ -3,6 +3,8 @@ package it.unipv.cv.square_detection;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import it.unipv.cv.line_detection.Line;
 import it.unipv.cv.line_detection.LineFinder;
@@ -10,17 +12,27 @@ import it.unipv.cv.utils.Coordinate;
 import it.unipv.cv.utils.DisplayImage;
 import it.unipv.cv.utils.Utility;
 
+/**
+ * To find the squares
+ * 
+ * @author Davide Pio Lotito - Aiman Al Masoud
+ * Computer Vision Project - 2022 - UniPV
+ *
+ */
 public class SquareFinder {
 
-
+	/**
+	 * Used to log messages of this class
+	 */
+	Logger logger;
+	
 	public ArrayList<Square> detectSquares(BufferedImage image){
-
+		logger = Logger.getLogger("");
+				
 		LineFinder lineFinder = new LineFinder();
 		ArrayList<Line> lines = lineFinder.detectLines(image);
 		ArrayList<Coordinate> intersections = new ArrayList<Coordinate>(); 
 
-
-		//System.out.println("Searching for intersections....");
 		for(Line line1 : lines) {
 			for(Line line2 : lines) {
 				try {
@@ -31,6 +43,7 @@ public class SquareFinder {
 				}
 			}
 		}
+		logger.log(Level.INFO, "DONE: Compute all interesections.");
 
 		intersections.sort(new Comparator<Coordinate>() {
 			@Override
@@ -69,6 +82,5 @@ public class SquareFinder {
 		SquareFinder squareFinder  = new SquareFinder();
 		BufferedImage image = Utility.read("./images/input/square.png");
 		squareFinder.detectSquares(image);
-
 	}
 }

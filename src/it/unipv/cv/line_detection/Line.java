@@ -14,8 +14,11 @@ import it.unipv.cv.utils.Utility;
  * Computer Vision Project - 2022 - UniPV
  *
  */
-
 public class Line{
+
+	private static final double DIFFERENCEslope = 2.0;
+
+	private static final int DIFFERENCErho = 4;
 
 	/**
 	 * Shortest distance of line from origin.
@@ -26,7 +29,7 @@ public class Line{
 	 * Angle from x-axis to line in the direction of rho.
 	 */
 	final public double theta;
-	
+
 	/**
 	 * Slope of the line.
 	 */
@@ -36,56 +39,54 @@ public class Line{
 	 * y-intercept of the line.
 	 */
 	final public double yintercept;
-		
-	
+
+
 	public Line(int rho, double theta) {
-		
+
 		this.rho = rho;
 		this.theta  = theta;
-		
+
 		if (theta == 0 || theta > 3.1) {
 			theta = 0.01;
 		}
-		
+
 		//https://aishack.in/tutorials/converting-lines-normal-slopeintercept-form/
 		slope = - (Math.cos(theta)/Math.sin(theta));
-		yintercept = rho*(1/Math.sin(theta));
-
-			
+		yintercept = rho*(1/Math.sin(theta));			
 	}
 
 	@Override
 	public String toString() {
 		return MessageFormat.format("Line(theta={0}, rho={1}, slope={2}, y-intercept={3})", theta, rho, slope, yintercept);
 	}
-	
+
 	@Override
 	public boolean equals(Object otherLine) {
-		
-		if((Math.abs(((Line)otherLine).rho - this.rho) > 4)) {
+
+		/**
+		 * not equals if the difference of their rho is bigger than DIFFERENCErho
+		 */
+		if((Math.abs(((Line)otherLine).rho - this.rho) > DIFFERENCErho)) {
 			return false;
 		}
-		
-//		if(Math.abs(((Line)otherLine).theta - this.theta) > 0.1) {
-//			return false;
-//		}
+		//		if(((Line)otherLine).rho != this.rho) {
+		//			return false;
+		//		}
+
+		//		if(Math.abs(((Line)otherLine).theta - this.theta) > 0.1) {
+		//			return false;
+		//		}
 		if(((Line)otherLine).theta != this.theta) {
 			return false;
 		}
-		
-		
-//		if(((Line)otherLine).rho != this.rho) {
-//			return false;
-//		}
-		
 		return true;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return (int)(rho+theta);
 	}
-	
+
 	/**
 	 * Evaluates y for a given x. (In the Cartesian space).
 	 * @param x
@@ -94,16 +95,23 @@ public class Line{
 	public double evaluate(double x) {
 		return (slope * x) + yintercept;
 	}
-	
+
 	/**
 	 * Check if two lines are parallels
 	 * @param line2
 	 * @return
 	 */
 	public boolean isParallel(Line line2) {
-		return ((Math.abs(this.slope - line2.slope))<2.0);
+		/**
+		 * are parallel if the the difference of their slope is minor than DIFFERENCEslope
+		 */
+		return ((Math.abs(this.slope - line2.slope))<DIFFERENCEslope);
 	}
-	
+
+	/**
+	 * non-valid "mathematically" lines
+	 * @return
+	 */
 	public boolean checkLine() {
 		if(Math.abs(this.slope)<0.01) {
 			return true;
@@ -113,37 +121,33 @@ public class Line{
 		} 
 		return (this.rho<0);
 	}
-	
+
 	/**
-	 * Compute the intersection between two lines 
+	 * Compute the intersection between two lines, but before does some checks
 	 * @param otherLine
 	 * @return
 	 * @throws Exception 
 	 */
 	public Coordinate intersects(Line otherLine) throws Exception {
-		
-		if(otherLine.equals(this)) {
+
+		if(otherLine.equals(this))
 			throw new Exception("Coincident lines, all intersections!");
-			//throw new IllegalArgumentException(this+" "+otherLine+" coincident lines");
-		}
-		
-		if(otherLine.isParallel(this)) {
+
+		if(otherLine.isParallel(this))
 			throw new Exception("Parallel lines, no intersections!");
-		}
-				
-		
+
 		double x =  (otherLine.yintercept - this.yintercept)/(this.slope - otherLine.slope);
 		double y =  evaluate(x);
 		return new Coordinate( (int)Math.round(x), (int)Math.round(y) );
 	}
-	
+
 	/**
-	 * Draw this line on an image and return a copy.
+	 * Draw this line on an image and return a new image with the line drawn.
 	 * @param b
 	 * @return
 	 */
 	public BufferedImage draw(BufferedImage b) {
-	    
+
 		b = Utility.copyImage(b);
 		Graphics2D g = (Graphics2D) b.getGraphics();
 		//the color of the lines
@@ -154,26 +158,22 @@ public class Line{
 		int upperBoundY = (int)evaluate(upperBoundX);
 		Coordinate c1 = Utility.coordToPixel(new Coordinate(lowerBoundX, lowerBoundY), b.getWidth(), b.getHeight());
 		Coordinate c2 = Utility.coordToPixel(new Coordinate(upperBoundX, upperBoundY), b.getWidth(), b.getHeight());
-        g.drawLine(c1.X, c1.Y, c2.X, c2.Y);
-        g.dispose();
-			
+		g.drawLine(c1.X, c1.Y, c2.X, c2.Y);
+		g.dispose();
+
 		return b;
 	}
-	
 
-	
 	/**
 	 * Only to test! REMOVE IT BEFORE THE DELIVERY
 	 * @param args
 	 * @throws Exception 
 	 */
-//	public static void main(String[] args) throws Exception {
-//		Line line = new Line(3, 0.5);
-//		Line line2 = new Line(4, 1.2);
-//		System.out.println(line);
-//		System.out.println(line2);
-//		System.out.println(line.intersects(line2));
-//	}
-	
-	
+	public static void main(String[] args) throws Exception {
+		Line line = new Line(3, 0.5);
+		Line line2 = new Line(4, 1.2);
+		System.out.println(line);
+		System.out.println(line2);
+		System.out.println(line.intersects(line2));
+	}	
 }

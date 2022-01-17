@@ -1,7 +1,11 @@
 package it.unipv.cv.edge_detection;
 
 import java.awt.image.BufferedImage;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import it.unipv.cv.lut.ToGrayScale;
+import it.unipv.cv.utils.DisplayImage;
 import it.unipv.cv.utils.Utility;
 
 /**
@@ -14,10 +18,16 @@ import it.unipv.cv.utils.Utility;
 public class SobelFilter implements EdgeDetector{
 	
 	/**
+	 * Used to log messages of this class.
+	 */
+	private Logger logger;
+	
+	/**
 	 * Produce an image, after Sobel Filtering
 	 * @param image gray scale image to analize
 	 */
 	public BufferedImage filtering(BufferedImage image) {
+		logger = Logger.getLogger("");
 		int x = image.getWidth();
 		int y = image.getHeight();
 		BufferedImage outputImage = new BufferedImage(x, y, image.getType());
@@ -80,8 +90,19 @@ public class SobelFilter implements EdgeDetector{
                 outputImage.setRGB(i, j, edgeColor);
             }
         }
-		Utility.writeImage(outputImage, "sobel");
+        logger.log(Level.INFO, "DONE: Detected edges with Sobel Filtering");
 		return outputImage;
+	}
+	
+	/**
+	 * Only to test! REMOVE IT BEFORE THE DELIVERY
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		String name = "horizontal_line_C.png";	
+		BufferedImage img = Utility.read("./images/input/"+name);
+		BufferedImage grayScale = new ToGrayScale(img).perform();
+		new DisplayImage().displayOneImage(new SobelFilter().filtering(grayScale), "Sobel Result");
 	}
 }
 

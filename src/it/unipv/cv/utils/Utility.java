@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
+import it.unipv.cv.lut.ToGrayScale;
+
 
 /**
  * Class with some generic useful methods
@@ -43,44 +45,16 @@ public class Utility {
 	 * @param input 	the input BufferedImage
 	 * @return
 	 */
-	public static BufferedImage toGrayScale(BufferedImage input, int w, int h) {
-		// creating output Image
+	public static BufferedImage toGrayScale(BufferedImage input) {
+		int w = input.getWidth();
+		int h = input.getHeight();
+		
 		BufferedImage output = new BufferedImage(w,h,BufferedImage.TYPE_BYTE_GRAY);
 
-		//convert to grayscale
-		for(int y = 0; y < h; y++){
-			for(int x = 0; x < w; x++){
-				int v = input.getRGB(x,y);
-				
-				int avg = getGrayScalePixel(v);
-				//replace RGB value with avg
-				v = (avg<<16) | (avg<<8) | avg;
-				
-				output.setRGB(x, y, v);
-			}
-		}
-
-		writeImage(output,"grayScale");
+		output = new ToGrayScale(input).perform();
 		return output;
 	}
 	
-	/**
-	 * Compute the gray scale value of a Pixel
-	 * 
-	 * @param v
-	 * @return
-	 */
-	public static int getGrayScalePixel(int v) {
-		int r = (v>>16)&255;
-		int g = (v>>8)&255;
-		int b = (v)&255;
-
-		//int avg = (r+g+b)/3;
-		int avg = (int) (0.299*r + 0.587*g + 0.114*b);//luminance
-		
-		return avg;
-	}
-
 	/**
 	 * To write image on the disk
 	 * @param output		the path where save the file

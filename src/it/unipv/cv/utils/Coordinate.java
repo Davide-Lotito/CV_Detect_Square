@@ -27,6 +27,4 @@ public class Coordinate {
 	public double distance(Coordinate coord2) {
 		return Math.sqrt(Math.pow(X - coord2.X, 2) + Math.pow(Y - coord2.Y, 2));
 	}
-	
-	
 }

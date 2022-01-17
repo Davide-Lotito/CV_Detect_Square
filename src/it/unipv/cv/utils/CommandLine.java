@@ -18,6 +18,11 @@ public class CommandLine {
 	public String name;
 	
 	/**
+	 * The path where save output images of the user
+	 */
+	public String pathname;
+	
+	/**
 	 * The example image for the lazy user
 	 */
 	public String EXAMPLE = "./images/input/sudoku.png";
@@ -68,5 +73,4 @@ public class CommandLine {
 			name = args[0];
 		}
 	}
-
 }
