@@ -1,5 +1,7 @@
 package it.unipv.cv.square_detection;
 
+import it.unipv.cv.utils.Coordinate;
+
 /**
  * A class for the square
  * 
@@ -8,12 +10,21 @@ package it.unipv.cv.square_detection;
  *
  */
 public class Square {
-	//in theory you need the TWO DIAGONAL POINTS of the square to 
-	//identify it
+	/**
+	 * the TWO DIAGONAL POINTS of the square to identify it
+	 */
+	private Coordinate upperRight;
+	private Coordinate bottomLeft;
 	
+	public Square(Coordinate upperRight, Coordinate bottomLeft) {
+		super();
+		this.upperRight = upperRight;
+		this.bottomLeft = bottomLeft;
+	}
 	
-	
-	
+	public double getEdge() {
+		return bottomLeft.distance(upperRight);
+	}
 	
 
 }

@@ -2,8 +2,6 @@ package it.unipv.cv.line_detection;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.Comparator;
-
 import it.unipv.cv.edge_detection.EdgeDetector;
 import it.unipv.cv.edge_detection.SobelFilter;
 import it.unipv.cv.edge_detection.Threshold;
@@ -66,16 +64,6 @@ public class LineFinder {
 		for(Coordinate point : edgePoints) {
 			lines.addAll(getLinesFor(point));
 		}
-		//		lines = new ArrayList<Line>();
-		//		for(Coordinate point : edgePoints) {
-		//			ArrayList<Line> allLines = getLinesFor(point);
-		//			for(Line line : allLines) {
-		//				if(!contains(line)) {
-		//					lines.add(line);
-		//				}
-		//			}
-		//		}
-
 		logger.log(Level.INFO, "DONE: Obtained all possible lines.");
 
 		/**
@@ -96,53 +84,32 @@ public class LineFinder {
 			}
 			results.add((Line)line);
 		}
-
+		
 		/**
-		 * Remove equal lines
+		 * Remove similar lines
 		 */
-		//		logger.log(Level.WARNING, "These lines where removed because equals:");
-		//		for(int j=0; j<results.size()-1; j++) {
-		//			Line line1 = results.get(j);
-		//			Line line2 = results.get(j+1);
-		//			if(line1.equals(line2)) {
-		//				logger.log(Level.WARNING,"removed "+line2.toString());
-		//				results.remove(j);	
-		//			}
-		//		}
-
-		/**
-		 * Remove non-valid "mathematically" lines
-		 */
-		logger.log(Level.WARNING, "These lines where removed because non-valid:");
-		ArrayList<Line> valids = new ArrayList<Line>();	
-		for(int k=0; k<results.size(); k++) {
-			if((results.get(k).checkLine())) {
-				//logger.log(Level.WARNING,"removed "+results.get(k).toString());
-				valids.add(results.get(k));
-				//results.remove(k);
-			} else {
-				logger.log(Level.WARNING,"removed "+results.get(k).toString());
+		logger.log(Level.WARNING, "These lines where removed because similar:");	
+		for(int j=0; j<results.size(); j++) {
+			Line line1 = results.get(j);
+			for(int k=0; k<results.size(); k++) {
+				Line line2 = results.get(k);
+				if(line1.equals(line2)) {
+					continue;
+				}
+				if(line1.similarLines(line2)) {
+					results.remove(line2);
+					logger.log(Level.WARNING,"removed "+line2.toString());
+				}
 			}
-		}
-
-		//		logger.log(Level.WARNING, "These lines where removed because similar:");
-		//		for(int j=0; j<valids.size()-1; j++) {
-		//			Line line1 = valids.get(j);
-		//			Line line2 = valids.get(j+1);
-		//			if(line1.similarLines(line2)) {
-		//				logger.log(Level.WARNING,"removed "+line2.toString());
-		//				valids.remove(j);
-		//			}
-		//		}
+		}		
 
 		logger.log(Level.INFO, "CORRECT LINES");
 		int COUNTER = 1;
-		for(Line line : valids) {
+		for(Line line : results) {
 			logger.log(Level.INFO, ("["+COUNTER+"] "+line.toString()));
 			COUNTER++;
 		}
-
-		return lines;
+		return results;
 	}
 
 	/**
@@ -170,9 +137,8 @@ public class LineFinder {
 	 */
 	public static ArrayList<Line> getLinesFor(Coordinate p){
 		ArrayList<Line> lines = new ArrayList<Line>();
-
-		int step = 1;//distance between two adjacent thetas
-		Integer[] thetas = Utility.generateThetas(step);
+		
+		Integer[] thetas = Utility.generateThetas(1,-90,90);
 
 		for(int theta : thetas){
 			Line line = getLineFor(p, Math.toRadians(theta));
@@ -195,17 +161,17 @@ public class LineFinder {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		BufferedImage image = Utility.read("./images/input/square.png");
+		BufferedImage image = Utility.read("./images/input/test_square.png");
 		//detect the lines on the image
 		LineFinder lineFinder = new LineFinder();
 		ArrayList<Line> lines = lineFinder.detectLines(image);
 
 		//draw each line
 		for(int i=0; i<lines.size(); i++) {
-			Line line1 = lines.get(i);	
+			Line line1 = lines.get(i);
 			image = line1.draw(image);
 		}
-
+	
 		new DisplayImage().displayOneImage(image, "detected lines");
 	}
 }

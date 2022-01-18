@@ -16,8 +16,11 @@ import it.unipv.cv.utils.Utility;
  */
 public class Line{
 
+	private static final double SIMILARtheta = 0.1;
+
+	private static final int SIMILARrho = 4;
+
 	private static final double DIFFERENCEslope = 2.0;
-	private static final int DIFFERENCErho = 4;
 
 	/**
 	 * Shortest distance of line from origin.
@@ -64,9 +67,9 @@ public class Line{
 		/**
 		 * not equals if the difference of their rho is bigger than DIFFERENCErho
 		 */
-		//		if((Math.abs(((Line)otherLine).rho - this.rho) > DIFFERENCErho)) {
-		//			return false;
-		//		}
+//		if((Math.abs(((Line)otherLine).rho - this.rho) > DIFFERENCErho)) {
+//			return false;
+//		}
 		if(((Line)otherLine).rho != this.rho) {
 			return false;
 		}
@@ -99,32 +102,24 @@ public class Line{
 	 * @param line2
 	 * @return
 	 */
-	public boolean isParallel(Line line2) {
+	public boolean areParallel(Line line2) {
 		/**
-		 * are parallel if the the difference of their slope is minor than DIFFERENCEslope
+		 * if the difference of their slope is minor than DIFFERENCEslope
 		 */
 		return ((Math.abs(this.slope - line2.slope))<DIFFERENCEslope);
 	}
-
+	
 	/**
-	 * non-valid "mathematically" lines
+	 * Check if two lines are "similar"
+	 * 
+	 * @param line
 	 * @return
 	 */
-	public boolean checkLine() {
-		if(Math.abs(this.slope)<0.01) {
-			return true;
-		}
-		if(this.theta<1.6) {
-			return (this.rho>0);
-		} 
-		return (this.rho<0);
-	}
-
 	public boolean similarLines(Line line) {
 		/**
 		 * True if the two lines are too much "similiar"
 		 */
-		if((Math.abs(((Line)line).rho - this.rho) < 4) && Math.abs(((Line)line).theta - this.theta) < 0.1) {
+		if((Math.abs(((Line)line).rho - this.rho) < SIMILARrho) && Math.abs(((Line)line).theta - this.theta) <= SIMILARtheta) {
 			return true;
 		}
 		return false;
@@ -137,11 +132,11 @@ public class Line{
 	 * @throws Exception 
 	 */
 	public Coordinate intersects(Line otherLine) throws Exception {
+		
+		if(otherLine.similarLines(this))
+			throw new Exception("Almost coincident lines, all intersections!");
 
-		if(otherLine.equals(this))
-			throw new Exception("Coincident lines, all intersections!");
-
-		if(otherLine.isParallel(this))
+		if(otherLine.areParallel(this))
 			throw new Exception("Parallel lines, no intersections!");
 
 		double x =  (otherLine.yintercept - this.yintercept)/(this.slope - otherLine.slope);
@@ -178,10 +173,14 @@ public class Line{
 	 * @throws Exception 
 	 */
 	public static void main(String[] args) throws Exception {
-		Line line = new Line(3, 0.5);
-		Line line2 = new Line(4, 1.2);
-		System.out.println(line);
-		System.out.println(line2);
-		System.out.println(line.intersects(line2));
+		Line line = new Line(311, 1.553);
+		Line line2 = new Line(312, 1.553);
+		Line line3 = new Line(-313, -1.588);
+		System.out.println(line.toString());
+		System.out.println(line2.toString());
+		System.out.println(line3.toString());
+		System.out.println("SIMILAR:");
+		System.out.println(line.similarLines(line2));
+		System.out.println(line2.similarLines(line3));
 	}	
 }

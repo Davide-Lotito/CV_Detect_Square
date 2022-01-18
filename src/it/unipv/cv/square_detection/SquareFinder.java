@@ -21,6 +21,7 @@ import it.unipv.cv.utils.Utility;
  */
 public class SquareFinder {
 
+	private static final int MAGICNUMBER = 100;
 	/**
 	 * Used to log messages of this class
 	 */
@@ -56,21 +57,25 @@ public class SquareFinder {
 		for(int i=0; i<intersections.size()-1; i++) {
 			Coordinate c1 = intersections.get(i);
 			Coordinate c2 = intersections.get(i+1);
-			if(c1.distance(c2) > 700) {
+			if(c1.distance(c2) > MAGICNUMBER) {
 				newIntersections.add(c1);
 			}
 		}
+		logger.log(Level.INFO, "DONE: Filtering, remained "+newIntersections.size()+" intersections");
 
 		// Plotting the lines and the square-edges that where found:
 		for(Line line : lines) {
 			image  = line.draw(image);
 		}
 		
+		/**
+		 * Only for debug
+		 */
 		image = Utility.plotPoints(image, newIntersections,5);	
 		new DisplayImage().displayOneImage(image, "interesections");
 
-		// USE THE INTERSECTION POINTS TO BUILD SQUARES
-		return null;
+		ArrayList<Square> output = new ArrayList<Square>(); 
+		return output;
 
 	}
 

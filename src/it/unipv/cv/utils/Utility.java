@@ -163,16 +163,16 @@ public class Utility {
 	 * @param step
 	 * @return
 	 */
-	public  static Integer[] generateThetas(int step) {
-		int size = (180/step)+1;
-		Integer[] thetas = new Integer[size];
-		int value = 0;
-		for(int i=0; i<size; i++) {
-			thetas[i]=value;
-			value++;
+	public  static Integer[] generateThetas(int step, int start, int end) {
+		Integer[] output = new Integer[end*2];
+		int index = 0;
+		for(int i=start; i<end; i++) {
+			output[index]=start;
+			start++;
+			index++;
 			
 		}
-		return thetas;
+		return output;
 	}
 	
 	/**
