@@ -53,14 +53,33 @@ public class SquareFinder {
 			}
 		});
 		
+		
+		//if we already have a coordinate too close to a new one we're adding, 
+		//then we don't add the new one.
+		
 		ArrayList<Coordinate> newIntersections = new ArrayList<Coordinate>();
-		for(int i=0; i<intersections.size()-1; i++) {
-			Coordinate c1 = intersections.get(i);
-			Coordinate c2 = intersections.get(i+1);
-				if((c1.distance(c2) > MAGICNUMBER)) {
-					newIntersections.add(c1);
+
+		
+		for(Coordinate coord : intersections) {
+			
+			boolean addMe =true;
+			
+			for(Coordinate alreadyThereCoord : newIntersections) {
+				if(alreadyThereCoord.distance(coord)< MAGICNUMBER) {
+					//don't add 'coord'
+					addMe = false;
 				}
+			}
+			
+			if(addMe) {
+				newIntersections.add(coord);
+			}	
+			
 		}
+		
+		
+		
+		
 		
 		logger.log(Level.INFO, "DONE: Filtering, remained "+newIntersections.size()+" intersections:");
 		int COUNTER = 1;
@@ -91,7 +110,7 @@ public class SquareFinder {
 	 */
 	public static void main(String[] args) {
 		SquareFinder squareFinder  = new SquareFinder();
-		BufferedImage image = Utility.read("./images/input/test_square.png");
+		BufferedImage image = Utility.read("./images/input/white_square.png");
 		squareFinder.detectSquares(image);
 	}
 }
