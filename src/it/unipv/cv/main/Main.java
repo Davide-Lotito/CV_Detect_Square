@@ -1,10 +1,9 @@
 /**
  * 
  */
-package it.unipv.cv.test;
+package it.unipv.cv.main;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
@@ -21,8 +20,7 @@ import it.unipv.cv.utils.Utility;
  * Computer Vision Project - 2022 - UniPV
  *
  */
-@SuppressWarnings("unused")
-public class Test {
+public class Main {
 	
 	public static void main(String[] args) {
 		
@@ -35,11 +33,6 @@ public class Test {
 		// command lines operations
 		CommandLine command = new CommandLine(args);
 		String pathname = command.name;
-
-		// paths to a bunch of test images
-		String root = "images"+File.separator+"input"+File.separator;
-		String test2 = root+"beautifulSquare.png";
-		String test1 = root+"test_square.png";
 		
 		// pick a test image
 		BufferedImage imageOriginal = Utility.read(pathname);
