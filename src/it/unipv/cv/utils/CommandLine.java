@@ -25,7 +25,7 @@ public class CommandLine {
 	/**
 	 * The example image for the lazy user
 	 */
-	public String EXAMPLE = "./images/input/sudoku.png";
+	public String EXAMPLE = "./images/input/beautifulSquare.png";
 	
 	
 	public CommandLine(String[] args) {

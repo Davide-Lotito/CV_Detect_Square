@@ -9,6 +9,9 @@ import it.unipv.cv.utils.Coordinate;
 import it.unipv.cv.utils.Counter;
 import it.unipv.cv.utils.DisplayImage;
 import it.unipv.cv.utils.Utility;
+import me.tongfei.progressbar.ProgressBar;
+import me.tongfei.progressbar.ProgressBarBuilder;
+import me.tongfei.progressbar.ProgressBarStyle;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -68,13 +71,20 @@ public class LineFinder {
 
 		/**
 		 * Count votes for each line
+		 * BOTTLE-NECK
 		 */
 		ArrayList<Line> results = new ArrayList<Line>();		
 		Counter counter = new Counter();
-		for(Line line : lines) {
+		ProgressBarBuilder pbb = new ProgressBarBuilder()
+			    .setStyle(ProgressBarStyle.ASCII)
+			    .setTaskName("Finding square")
+			    .setUpdateIntervalMillis(100)
+			    .showSpeed();
+		for(Line line : ProgressBar.wrap(lines, pbb)) {
 			counter.add(line);
 		}
-
+		logger.log(Level.INFO, "DONE: Obtained all count votes.");
+		
 		/**
 		 * Threshold lines by votes
 		 */
@@ -84,6 +94,7 @@ public class LineFinder {
 			}
 			results.add((Line)line);
 		}
+		logger.log(Level.INFO, "DONE: Threshold lines by votes.");
 		
 		/**
 		 * Remove similar lines

@@ -4,9 +4,6 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.text.MessageFormat;
-
-import com.sun.org.apache.xerces.internal.impl.xpath.regex.REUtil;
-
 import it.unipv.cv.utils.Coordinate;
 import it.unipv.cv.utils.Utility;
 
