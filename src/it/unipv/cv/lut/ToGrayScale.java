@@ -4,9 +4,6 @@ import java.awt.image.BufferedImage;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import it.unipv.cv.utils.DisplayImage;
-import it.unipv.cv.utils.Utility;
-
 /**
  * To get a gray scale image
  * 
@@ -23,7 +20,7 @@ public class ToGrayScale extends AbstractLutOperation {
 
 	public ToGrayScale(BufferedImage image) {
 		super(image);
-		logger = Logger.getLogger("");
+		logger = Logger.getLogger("CVlogger");
 	}
 
 	@Override
@@ -43,16 +40,5 @@ public class ToGrayScale extends AbstractLutOperation {
 	public BufferedImage perform() {
 		logger.log(Level.INFO, "DONE: Obtained grey-level image.");
 		return super.perform();
-	}
-
-	/**
-	 * Only to test! REMOVE IT BEFORE THE DELIVERY
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		String name = "horizontal_line_C.png";	
-		BufferedImage img = Utility.read("./images/input/"+name);
-		new DisplayImage().displayOneImage(new ToGrayScale(img).perform(), "");
-	}
-	
+	}	
 }

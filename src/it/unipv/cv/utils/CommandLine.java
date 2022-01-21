@@ -38,13 +38,13 @@ public class CommandLine {
 	 */
 	private void checkMain(String[] args){
 		if(args.length==0) {
-			System.err.println("\nbe used: java <<program>> file-name-image.png");
+			System.err.println("\nbe used: java -jar <<program>> file-name-image.png");
 			System.exit(1);
 		} if(args[0].equals("--help")) {
 			System.out.println("\t\t\t\t------");
 			System.out.println("It is a university project, for the examination of computer vision.");
 			System.out.println("Authors: Davide Pio Lotito - Aiman Al Masoud\n");
-			System.out.println("Overview: This program aims to detect squares." + "Using Sobel, the Hough"
+			System.out.println("Overview: This program aims to detect square." + "Using Sobel, the Hough"
 					+ " Transform and some geometry allows you to locate the squares"
 					+ " in the image.\n");
 			System.out.println("Parameter: It takes as a parameter the name of an image, both color and"
@@ -62,7 +62,7 @@ public class CommandLine {
 					break;
 				}
 				if(inserted.equals("")) {
-					System.err.println("\nbe used: java <<program>> file-name-image.png");
+					System.err.println("\nbe used: java -jar <<program>> file-name-image.png");
 					System.exit(1);
 				}
 				name = inserted;

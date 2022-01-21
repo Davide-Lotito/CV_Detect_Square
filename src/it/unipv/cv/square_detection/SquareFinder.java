@@ -28,7 +28,7 @@ public class SquareFinder {
 	Logger logger;
 	
 	public Square detectSquare(BufferedImage image){
-		logger = Logger.getLogger("");
+		logger = Logger.getLogger("CVlogger");
 				
 		LineFinder lineFinder = new LineFinder();
 		ArrayList<Line> lines = lineFinder.detectLines(image);
@@ -40,7 +40,8 @@ public class SquareFinder {
 					Coordinate  c = line1.intersects(line2);
 					intersections.add(c);
 				} catch (Exception e) {
-					System.err.println(e.getMessage());
+					//System.err.println(e.getMessage());
+					logger.log(Level.INFO, e.getMessage());
 				}
 			}
 		}

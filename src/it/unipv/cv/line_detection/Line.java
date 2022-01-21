@@ -125,19 +125,6 @@ public class Line{
 		/**
 		 * True if the two lines are too much "similiar"
 		 */
-//		if((this.rho*this.theta) * (line.rho*line.theta)<0) {
-//			return false;
-//		}
-//		if(this.isVertical() && line.isHorizontal()) {
-//			return false;
-//		}
-//		if(this.isHorizontal() && line.isVertical()) {
-//			return false;
-//		}
-//		only for parallel lines
-//		if(((Math.abs((line).rho - this.rho)) >= SIMILARrho)) {
-//			return false;
-//		}
 		if((Math.abs((line).rho - (this.rho)) >= SIMILARrho) 
 				|| ((Math.abs((line).theta - this.theta)) >= SIMILARtheta)) {
 			return false;
@@ -186,21 +173,4 @@ public class Line{
 
 		return b;
 	}
-
-	/**
-	 * Only to test! REMOVE IT BEFORE THE DELIVERY
-	 * @param args
-	 * @throws Exception 
-	 */
-	public static void main(String[] args) throws Exception {
-		Line line = new Line(311, 1.553);
-		Line line2 = new Line(312, 1.553);
-		Line line3 = new Line(-313, -1.588);
-		System.out.println(line.toString());
-		System.out.println(line2.toString());
-		System.out.println(line3.toString());
-		System.out.println("SIMILAR:");
-		System.out.println(line.similarLines(line2));
-		System.out.println(line2.similarLines(line3));
-	}	
 }

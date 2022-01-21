@@ -40,12 +40,12 @@ public class LineFinder {
 	/**
 	 * Lines
 	 */
-	ArrayList<Line> lines;
+	public static ArrayList<Line> lines;
 
 
 	public ArrayList<Line> detectLines(BufferedImage img){
 
-		logger = Logger.getLogger("");
+		logger = Logger.getLogger("CVlogger");
 
 		/**
 		 * Min votes for the Hough Transform
@@ -121,6 +121,8 @@ public class LineFinder {
 			logger.log(Level.INFO, ("["+COUNTER+"] "+line.toString()));
 			COUNTER++;
 		}
+		
+		LineFinder.lines = resultsNew;
 		return resultsNew;
 	}
 
@@ -167,6 +169,20 @@ public class LineFinder {
 		}
 		return false;
 	}
+	
+	/**
+	 * Draw all the lines
+	 * @param image
+	 * @param lines
+	 * @return
+	 */
+	public static BufferedImage drawLines(BufferedImage image) {
+		for(int i=0; i<lines.size(); i++) {
+			Line line1 = lines.get(i);
+			image = line1.draw(image);
+		}
+		return image;
+	}
 
 	/**
 	 * Only to test! REMOVE IT BEFORE THE DELIVERY
@@ -176,13 +192,10 @@ public class LineFinder {
 		BufferedImage image = Utility.read("./images/input/beautifulSquare.png");
 		//detect the lines on the image
 		LineFinder lineFinder = new LineFinder();
-		ArrayList<Line> lines = lineFinder.detectLines(image);
+		lineFinder.detectLines(image);
 
 		//draw each line
-		for(int i=0; i<lines.size(); i++) {
-			Line line1 = lines.get(i);
-			image = line1.draw(image);
-		}
+		image = drawLines(image);
 	
 		new DisplayImage().displayOneImage(image, "detected lines");
 	}
