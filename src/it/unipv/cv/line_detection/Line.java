@@ -4,6 +4,9 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.text.MessageFormat;
+
+import com.sun.org.apache.xerces.internal.impl.xpath.regex.REUtil;
+
 import it.unipv.cv.utils.Coordinate;
 import it.unipv.cv.utils.Utility;
 
@@ -16,21 +19,19 @@ import it.unipv.cv.utils.Utility;
  */
 public class Line{
 
-	private static final double SIMILARtheta = 0.1;
-
-	private static final int SIMILARrho = 4;
-
+	private static final double SIMILARtheta = 1;
+	private static final int SIMILARrho = 30;
 	private static final double DIFFERENCEslope = 2.0;
 
 	/**
 	 * Shortest distance of line from origin.
 	 */
-	final public int rho;
+	public int rho;
 
 	/**
 	 * Angle from x-axis to line in the direction of rho.
 	 */
-	final public double theta;
+	 public double theta;
 
 	/**
 	 * Slope of the line.
@@ -109,6 +110,14 @@ public class Line{
 		return ((Math.abs(this.slope - line2.slope))<DIFFERENCEslope);
 	}
 	
+	public boolean isVertical() {
+		return (Math.abs(this.slope)>50);
+	}
+	
+	public boolean isHorizontal() {
+		return (Math.abs(this.slope)<0.3);
+	}
+	
 	/**
 	 * Check if two lines are "similar"
 	 * 
@@ -119,10 +128,24 @@ public class Line{
 		/**
 		 * True if the two lines are too much "similiar"
 		 */
-		if((Math.abs(((Line)line).rho - this.rho) < SIMILARrho) && Math.abs(((Line)line).theta - this.theta) <= SIMILARtheta) {
-			return true;
+//		if((this.rho*this.theta) * (line.rho*line.theta)<0) {
+//			return false;
+//		}
+//		if(this.isVertical() && line.isHorizontal()) {
+//			return false;
+//		}
+//		if(this.isHorizontal() && line.isVertical()) {
+//			return false;
+//		}
+//		only for parallel lines
+//		if(((Math.abs((line).rho - this.rho)) >= SIMILARrho)) {
+//			return false;
+//		}
+		if((Math.abs((line).rho - (this.rho)) >= SIMILARrho) 
+				|| ((Math.abs((line).theta - this.theta)) >= SIMILARtheta)) {
+			return false;
 		}
-		return false;
+		return true;
 	}
 
 	/**

@@ -26,11 +26,7 @@ public class Test {
 
 		// paths to a bunch of test images
 		String root = "images"+File.separator+"input"+File.separator;
-		String diagLines = root+"diagonal_lines.png";
 		String square = root+"square.png";
-		String horizontal = root+"horizontal_line_C.png";
-		String sudoku =  root+"sudoku.png";
-		String sudoku2 =  root+"sudoku_settimana.jpg";
 		String test1 = root+"test_square.png";
 
 		// pick a test image
@@ -39,6 +35,6 @@ public class Test {
 		
 		//find and plot the squares
 		SquareFinder squareFinder  = new SquareFinder();
-		squareFinder.detectSquares(image);
+		squareFinder.detectSquare(image);
 	}
 }

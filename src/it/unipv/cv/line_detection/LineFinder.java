@@ -88,28 +88,29 @@ public class LineFinder {
 		/**
 		 * Remove similar lines
 		 */
-		logger.log(Level.WARNING, "These lines where removed because similar:");	
-		for(int j=0; j<results.size(); j++) {
-			Line line1 = results.get(j);
-			for(int k=0; k<results.size(); k++) {
-				Line line2 = results.get(k);
-				if(line1.equals(line2)) {
-					continue;
-				}
-				if(line1.similarLines(line2)) {
-					results.remove(line2);
-					logger.log(Level.WARNING,"removed "+line2.toString());
+		logger.log(Level.WARNING, "These lines are similar:");	
+		ArrayList<Line> resultsNew = new ArrayList<Line>();
+		for(Line line : results) {
+			boolean addMe =true;
+			for(Line alreadyThereLine : resultsNew) {
+				if(alreadyThereLine.similarLines(line)) {
+					//don't add 'coord'
+					addMe = false;
+					logger.log(Level.WARNING,"not added "+line.toString());
 				}
 			}
-		}		
+			if(addMe) {
+				resultsNew.add(line);
+			}
+		}
 
 		logger.log(Level.INFO, "CORRECT LINES");
 		int COUNTER = 1;
-		for(Line line : results) {
+		for(Line line : resultsNew) {
 			logger.log(Level.INFO, ("["+COUNTER+"] "+line.toString()));
 			COUNTER++;
 		}
-		return results;
+		return resultsNew;
 	}
 
 	/**
@@ -161,7 +162,7 @@ public class LineFinder {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		BufferedImage image = Utility.read("./images/input/test_square.png");
+		BufferedImage image = Utility.read("./images/input/beautifulSquare.png");
 		//detect the lines on the image
 		LineFinder lineFinder = new LineFinder();
 		ArrayList<Line> lines = lineFinder.detectLines(image);

@@ -21,13 +21,13 @@ import it.unipv.cv.utils.Utility;
  */
 public class SquareFinder {
 
-	private static final int MAGICNUMBER = 200;
+	private static final int MAGICNUMBER = 20;
 	/**
 	 * Used to log messages of this class
 	 */
 	Logger logger;
 	
-	public ArrayList<Square> detectSquares(BufferedImage image){
+	public Square detectSquare(BufferedImage image){
 		logger = Logger.getLogger("");
 				
 		LineFinder lineFinder = new LineFinder();
@@ -53,33 +53,64 @@ public class SquareFinder {
 			}
 		});
 		
-		
 		//if we already have a coordinate too close to a new one we're adding, 
 		//then we don't add the new one.
-		
 		ArrayList<Coordinate> newIntersections = new ArrayList<Coordinate>();
-
-		
 		for(Coordinate coord : intersections) {
-			
 			boolean addMe =true;
-			
 			for(Coordinate alreadyThereCoord : newIntersections) {
 				if(alreadyThereCoord.distance(coord)< MAGICNUMBER) {
 					//don't add 'coord'
 					addMe = false;
 				}
 			}
-			
 			if(addMe) {
 				newIntersections.add(coord);
 			}	
-			
 		}
 		
+		// Plotting the lines and the square-edges that where found:
+		for(Line line : lines) {
+			image  = line.draw(image);
+		}
+				
+		/**
+		 * Get the upperLeft coordinate
+		 */
+		newIntersections.sort(new Comparator<Coordinate>() {
+			@Override
+			public int compare(Coordinate o1, Coordinate o2) {
+				return o2.Y - o1.Y;
+			}
+		});
 		
+		Coordinate first = newIntersections.get(0);
+		Coordinate second = newIntersections.get(1);
+		Coordinate upperLeft = first;
+		if(first.X < second.X) {
+			upperLeft = first;
+		} else {
+			upperLeft = second;
+		}
 		
+		/**
+		 * Get the bottomRight coordinate
+		 */
+		newIntersections.sort(new Comparator<Coordinate>() {
+			@Override
+			public int compare(Coordinate o1, Coordinate o2) {
+				return o2.X - o1.X;
+			}
+		});
 		
+		first = newIntersections.get(0);
+		second = newIntersections.get(1);
+		Coordinate bottomRight = first;
+		if(first.Y < second.Y) {
+			bottomRight = first;
+		} else {
+			bottomRight = second;
+		}
 		
 		logger.log(Level.INFO, "DONE: Filtering, remained "+newIntersections.size()+" intersections:");
 		int COUNTER = 1;
@@ -87,21 +118,9 @@ public class SquareFinder {
 			logger.log(Level.INFO, "["+COUNTER+"] "+c.toString());
 			COUNTER++;
 		}
-		
-		// Plotting the lines and the square-edges that where found:
-		for(Line line : lines) {
-			image  = line.draw(image);
-		}
-		
-		/**
-		 * Only for debug
-		 */
-		image = Utility.plotPoints(image, newIntersections,5);	
-		new DisplayImage().displayOneImage(image, "interesections");
 
-		ArrayList<Square> output = new ArrayList<Square>(); 
-		return output;
-
+		return new Square(Utility.coordToPixel(upperLeft, image.getWidth(), image.getHeight()), 
+				Utility.coordToPixel(bottomRight, image.getWidth(), image.getHeight()));
 	}
 
 	/**
@@ -110,7 +129,8 @@ public class SquareFinder {
 	 */
 	public static void main(String[] args) {
 		SquareFinder squareFinder  = new SquareFinder();
-		BufferedImage image = Utility.read("./images/input/white_square.png");
-		squareFinder.detectSquares(image);
+		BufferedImage image = Utility.read("./images/input/test_square.png");
+		Square square = squareFinder.detectSquare(image);
+		new DisplayImage().displayOneImage(square.draw(image), "square");
 	}
 }
