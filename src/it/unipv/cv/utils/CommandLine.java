@@ -21,10 +21,10 @@ public class CommandLine {
 	/**
 	 * The example image for the lazy user
 	 */
-	public String EXAMPLE = "./images/input/beautifulSquare.png";
+	public String EXAMPLE = "./images/test1_square.png";
 	
 	/**
-	 * path where to save image, in the same directory by default
+	 * path where to save image, in the same directory by default with the name "output"
 	 */
 	public String path = "./output";
 	
