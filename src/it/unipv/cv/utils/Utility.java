@@ -23,7 +23,7 @@ public class Utility {
 
 	/**
 	 * Read the image
-	 * @param fileName		the path where read the file
+	 * @param fileName the path where read the file
 	 * @return
 	 */
 	public static BufferedImage read(String fileName) {
@@ -32,7 +32,7 @@ public class Utility {
 			return ImageIO.read(f);
 		} catch(IOException e) {
 			System.err.println("Error in the file reading!");
-			e.printStackTrace();
+			//e.printStackTrace();
 			System.exit(1);
 		}
 		return null;
@@ -59,19 +59,13 @@ public class Utility {
 	 * To write image on the disk
 	 * @param output		the path where save the file
 	 */
-	public static void writeImage(BufferedImage output, String name) {
-		
-		//create the output dir, if it's not presents
-		if(! new File("./images/output/").isDirectory()) {
-			new File("./images/output/").mkdir();
-		}
-		
+	public static void writeImage(BufferedImage output, String pathName) {		
 		try{
-			File f = new File("./images/output/"+name+".png");
+			File f = new File(pathName + ".png");
 			ImageIO.write(output, "png", f);
 		}catch(IOException e){
 			System.err.println("Error in the file writing!");
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 	}
 	

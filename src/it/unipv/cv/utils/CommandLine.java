@@ -3,6 +3,7 @@
  */
 package it.unipv.cv.utils;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 /**
@@ -16,16 +17,21 @@ public class CommandLine {
 	 * The filename of the user's image
 	 */
 	public String name;
-	
-	/**
-	 * The path where save output images of the user
-	 */
-	public String pathname;
-	
+		
 	/**
 	 * The example image for the lazy user
 	 */
 	public String EXAMPLE = "./images/input/beautifulSquare.png";
+	
+	/**
+	 * path where to save image, in the same directory by default
+	 */
+	public String path = "./output";
+	
+	/**
+	 * flag which says if the user want to save the image
+	 */
+	public Boolean isOutput = false;
 	
 	
 	public CommandLine(String[] args) {
@@ -38,7 +44,7 @@ public class CommandLine {
 	 */
 	private void checkMain(String[] args){
 		if(args.length==0) {
-			System.err.println("\nbe used: java -jar <<program>> file-name-image.png");
+			System.err.println("\nbe used: java -jar <<program>> file-name-image.png [--output]");
 			System.exit(1);
 		} if(args[0].equals("--help")) {
 			System.out.println("\t\t\t\t------");
@@ -47,9 +53,11 @@ public class CommandLine {
 			System.out.println("Overview: This program aims to detect square." + "Using Sobel, the Hough"
 					+ " Transform and some geometry allows you to locate the squares"
 					+ " in the image.\n");
-			System.out.println("Parameter: It takes as a parameter the name of an image, both color and"
+			System.out.println("Parameters: "+"\n 1)It takes as a parameter the name of an image, both color and"
 					+ " grayscale images are fine. If If you don't have one, type \"example\" and you will"
-					+ " see how the program works with a test image.");
+					+ " see how the program works with a test image." + "\n 2)It optionally takes the path" 
+					+ " where to save the final image. If the path is empty the dafault is the current directory,"
+					+ " otherwise it uses the path inserted saving as \"png\". ");
 			Scanner scanner = new Scanner(System.in);
 			boolean condition = true;
 			while(condition) {
@@ -69,6 +77,10 @@ public class CommandLine {
 				scanner.close();
 				condition = false;
 			}
+		} else if (Arrays.asList(args).contains("--output")) {
+			isOutput = true;
+			path = args[Arrays.asList(args).indexOf("--output")+1];
+			name = args[0];
 		} else {
 			name = args[0];
 		}

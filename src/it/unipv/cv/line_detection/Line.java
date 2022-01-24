@@ -65,16 +65,10 @@ public class Line{
 		/**
 		 * not equals if the difference of their rho is bigger than DIFFERENCErho
 		 */
-//		if((Math.abs(((Line)otherLine).rho - this.rho) > DIFFERENCErho)) {
-//			return false;
-//		}
 		if(((Line)otherLine).rho != this.rho) {
 			return false;
 		}
 
-		//		if(Math.abs(((Line)otherLine).theta - this.theta) > 0.1) {
-		//			return false;
-		//		}
 		if(((Line)otherLine).theta != this.theta) {
 			return false;
 		}

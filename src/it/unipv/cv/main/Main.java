@@ -41,12 +41,16 @@ public class Main {
 		ArrayList<BufferedImage> display = new ArrayList<BufferedImage>();
 		SquareFinder squareFinder  = new SquareFinder();		
 		Square square = squareFinder.detectSquare(imageOriginal);
+		BufferedImage squareImage = square.draw(imageOriginal);
 		
 		display.add(imageOriginal);
 		display.add(new SobelFilter().filtering(imageOriginal));
 		display.add(LineFinder.drawLines(imageOriginal));
-		display.add(square.draw(imageOriginal));
+		display.add(squareImage);
 				
 		new DisplayImage().displayMoreImages(display);
+		if(command.isOutput) {
+			Utility.writeImage(squareImage, command.path);
+		}	
 	}
 }
